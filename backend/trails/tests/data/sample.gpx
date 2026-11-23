@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Synthetic test track (not a real route): 5 points, steady climb with one dip. -->
+<gpx version="1.1" creator="tooarna-tests" xmlns="http://www.topografix.com/GPX/1/1">
+  <trk>
+    <name>test</name>
+    <trkseg>
+      <trkpt lat="42.5600" lon="74.4800"><ele>2100</ele></trkpt>
+      <trkpt lat="42.5550" lon="74.4850"><ele>2200</ele></trkpt>
+      <trkpt lat="42.5500" lon="74.4900"><ele>2180</ele></trkpt>
+      <trkpt lat="42.5450" lon="74.4950"><ele>2350</ele></trkpt>
+      <trkpt lat="42.5400" lon="74.5000"><ele>2352</ele></trkpt>
+    </trkseg>
+  </trk>
+</gpx>

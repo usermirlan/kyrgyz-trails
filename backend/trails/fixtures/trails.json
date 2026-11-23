@@ -1,0 +1,122 @@
+[
+  {
+    "slug": "ala-archa-ratsek",
+    "region": "chui", "difficulty": "moderate",
+    "distance_km": 16.0, "elevation_gain_m": 1200, "max_elevation_m": 3370, "duration_days": 1,
+    "best_months": [6, 7, 8, 9],
+    "start": [74.4825, 42.5647],
+    "t": {
+      "ky": ["Ала-Арча: Рацек тоо үйү", "Ак-Сай мөңгүсүнүн этегиндеги альпинисттердин тоо үйүнө чейинки классикалык маршрут.", "Бишкектен такси же өз унаа менен Ала-Арча улуттук паркына (~40 км), альплагерге чейин."],
+      "ru": ["Ала-Арча: хижина Рацека", "Классический маршрут к альпинистской хижине у подножия ледника Ак-Сай.", "Из Бишкека на такси или авто до нацпарка Ала-Арча (~40 км), до альплагеря."],
+      "en": ["Ala-Archa: Ratsek Hut", "Classic hike to the mountaineers' hut below the Ak-Sai glacier.", "Taxi or car from Bishkek to Ala-Archa National Park (~40 km), up to the alpine camp."]
+    }
+  },
+  {
+    "slug": "ala-archa-ak-sai-waterfall",
+    "region": "chui", "difficulty": "easy",
+    "distance_km": 8.0, "elevation_gain_m": 600, "max_elevation_m": 2750, "duration_days": 1,
+    "best_months": [5, 6, 7, 8, 9, 10],
+    "start": [74.4825, 42.5647],
+    "t": {
+      "ky": ["Ала-Арча: Ак-Сай шаркыратмасы", "Бишкекке жакын, жаңы баштагандар үчүн ылайыктуу кооз шаркыратма маршруту.", "Бишкектен Ала-Арча улуттук паркына, альплагерден жолго чыгасыз."],
+      "ru": ["Ала-Арча: водопад Ак-Сай", "Красивый маршрут к водопаду рядом с Бишкеком, подходит новичкам.", "Из Бишкека в нацпарк Ала-Арча, старт от альплагеря."],
+      "en": ["Ala-Archa: Ak-Sai Waterfall", "Scenic beginner-friendly hike to a waterfall close to Bishkek.", "From Bishkek to Ala-Archa National Park, start at the alpine camp."]
+    }
+  },
+  {
+    "slug": "altyn-arashan",
+    "region": "issyk_kul", "difficulty": "moderate",
+    "distance_km": 28.0, "elevation_gain_m": 1000, "max_elevation_m": 2600, "duration_days": 2,
+    "best_months": [6, 7, 8, 9],
+    "start": [78.4950, 42.4600],
+    "t": {
+      "ky": ["Алтын-Арашан ысык булактары", "Карагай токою аркылуу ысык булактары бар тоо өрөөнүнө чейинки маршрут.", "Каракол шаарынан Ак-Суу айылына, андан ары жөө же 4x4 унаа менен."],
+      "ru": ["Горячие источники Алтын-Арашан", "Маршрут через еловый лес в долину с горячими источниками.", "Из Каракола до села Ак-Суу, дальше пешком или на 4x4."],
+      "en": ["Altyn-Arashan Hot Springs", "Hike through spruce forest to a valley with natural hot springs.", "From Karakol to Ak-Suu village, then on foot or by 4x4."]
+    }
+  },
+  {
+    "slug": "ala-kul-trek",
+    "region": "issyk_kul", "difficulty": "hard",
+    "distance_km": 55.0, "elevation_gain_m": 2400, "max_elevation_m": 3900, "duration_days": 3,
+    "best_months": [7, 8, 9],
+    "start": [78.4040, 42.4620],
+    "t": {
+      "ky": ["Ала-Көл треги", "Бирюза түстүү бийик тоо көлү жана 3900 м ашуу аркылуу Алтын-Арашанга өткөн атактуу трек.", "Каракол шаарынан Каракол өрөөнүнүн кире беришине такси менен."],
+      "ru": ["Трек к озеру Ала-Куль", "Знаменитый трек к бирюзовому высокогорному озеру через перевал 3900 м до Алтын-Арашана.", "Из Каракола на такси к входу в Каракольское ущелье."],
+      "en": ["Ala-Kul Lake Trek", "Famous trek to a turquoise alpine lake over a 3,900 m pass to Altyn-Arashan.", "Taxi from Karakol to the entrance of Karakol Gorge."]
+    }
+  },
+  {
+    "slug": "jeti-oguz-seven-bulls",
+    "region": "issyk_kul", "difficulty": "easy",
+    "distance_km": 5.0, "elevation_gain_m": 250, "max_elevation_m": 2200, "duration_days": 1,
+    "best_months": [5, 6, 7, 8, 9, 10],
+    "start": [78.2330, 42.3600],
+    "t": {
+      "ky": ["Жети-Өгүз: Жети өгүз жана Жарылган жүрөк", "Кызыл аска-зоолордун арасындагы жеңил сейил маршруту.", "Каракол шаарынан Жети-Өгүз айылына (~25 км) маршрутка же такси менен."],
+      "ru": ["Джети-Огуз: Семь быков и Разбитое сердце", "Лёгкая прогулка среди красных скал.", "Из Каракола до села Джети-Огуз (~25 км) на маршрутке или такси."],
+      "en": ["Jeti-Oguz: Seven Bulls & Broken Heart", "Easy walk among striking red rock formations.", "From Karakol to Jeti-Oguz village (~25 km) by minibus or taxi."]
+    }
+  },
+  {
+    "slug": "skazka-canyon",
+    "region": "issyk_kul", "difficulty": "easy",
+    "distance_km": 3.0, "elevation_gain_m": 100, "max_elevation_m": 1750, "duration_days": 1,
+    "best_months": [4, 5, 6, 7, 8, 9, 10],
+    "start": [77.3620, 42.1550],
+    "t": {
+      "ky": ["Жомок капчыгайы", "Ысык-Көлдүн түштүк жээгиндеги түрдүү түстөгү аска-зоолор, үй-бүлө менен барууга ылайыктуу.", "Бишкек–Каракол түштүк жолу, Тосор айылынын жанында."],
+      "ru": ["Каньон Сказка", "Разноцветные скалы на южном берегу Иссык-Куля, подходит для семей.", "Южная дорога Бишкек–Каракол, рядом с селом Тосор."],
+      "en": ["Skazka (Fairy Tale) Canyon", "Colourful eroded rocks on the south shore of Issyk-Kul, family friendly.", "South shore road Bishkek–Karakol, near Tosor village."]
+    }
+  },
+  {
+    "slug": "son-kul-horse-trek",
+    "region": "naryn", "difficulty": "moderate",
+    "distance_km": 40.0, "elevation_gain_m": 1100, "max_elevation_m": 3400, "duration_days": 2,
+    "best_months": [6, 7, 8],
+    "start": [74.9800, 42.0700],
+    "t": {
+      "ky": ["Соң-Көлгө ат же жөө жүрүш", "Жайлоолор жана боз үйлөр аркылуу бийик тоолуу Соң-Көлгө чейинки маршрут.", "Бишкектен Кочкор аркылуу Кызарт айылына."],
+      "ru": ["Конный/пеший трек к Сон-Кулю", "Маршрут через джайлоо и юрточные лагеря к высокогорному озеру Сон-Куль.", "Из Бишкека через Кочкор до села Кызарт."],
+      "en": ["Son-Kul Horse / Hiking Trek", "Route over summer pastures and yurt camps to high-altitude Son-Kul lake.", "From Bishkek via Kochkor to Kyzart village."]
+    }
+  },
+  {
+    "slug": "kel-suu",
+    "region": "naryn", "difficulty": "hard",
+    "distance_km": 20.0, "elevation_gain_m": 700, "max_elevation_m": 3500, "duration_days": 2,
+    "best_months": [7, 8, 9],
+    "start": [75.1500, 41.0400],
+    "t": {
+      "ky": ["Көл-Суу көлү", "Кытай чек арасына жакын, аскалар арасындагы өзгөчө кооз көл. Чек ара уруксаты талап кылынат.", "Нарын шаарынан Ат-Башы аркылуу 4x4 унаа менен. Алдын ала погранзона пропускун алыңыз."],
+      "ru": ["Озеро Кёль-Суу", "Уникальное озеро среди скал у китайской границы. Нужен пограничный пропуск.", "Из Нарына через Ат-Баши на 4x4. Заранее оформите пропуск в погранзону."],
+      "en": ["Kel-Suu Lake", "Stunning lake between sheer cliffs near the Chinese border. Border permit required.", "From Naryn via At-Bashy by 4x4. Arrange a border-zone permit in advance."]
+    }
+  },
+  {
+    "slug": "sary-chelek",
+    "region": "jalal_abad", "difficulty": "easy",
+    "distance_km": 7.0, "elevation_gain_m": 300, "max_elevation_m": 2000, "duration_days": 1,
+    "best_months": [5, 6, 7, 8, 9, 10],
+    "start": [71.9700, 41.8700],
+    "t": {
+      "ky": ["Сары-Челек көлү", "Жаңгак жана карагай токойлору курчаган биосфералык коруктагы көл.", "Жалал-Абаддан Таш-Көмүр жана Аркыт айылы аркылуу."],
+      "ru": ["Озеро Сары-Челек", "Озеро в биосферном заповеднике среди ореховых и еловых лесов.", "Из Джалал-Абада через Таш-Кумыр и село Аркыт."],
+      "en": ["Sary-Chelek Lake", "Lake in a biosphere reserve surrounded by walnut and spruce forests.", "From Jalal-Abad via Tash-Kumyr and Arkyt village."]
+    }
+  },
+  {
+    "slug": "barskoon-waterfalls",
+    "region": "issyk_kul", "difficulty": "easy",
+    "distance_km": 4.0, "elevation_gain_m": 200, "max_elevation_m": 2300, "duration_days": 1,
+    "best_months": [5, 6, 7, 8, 9],
+    "start": [77.6000, 42.0300],
+    "t": {
+      "ky": ["Барскоон шаркыратмалары", "Барскоон капчыгайындагы бир нече шаркыратма, Гагариндин эстелиги жанында.", "Ысык-Көлдүн түштүк жээгинен Барскоон айылы аркылуу капчыгайга."],
+      "ru": ["Водопады Барскоон", "Каскад водопадов в Барскоонском ущелье, рядом с памятником Гагарину.", "С южного берега Иссык-Куля через село Барскоон в ущелье."],
+      "en": ["Barskoon Waterfalls", "A series of waterfalls in Barskoon Gorge, near the Gagarin monument.", "From the south shore of Issyk-Kul via Barskoon village into the gorge."]
+    }
+  }
+]
