@@ -58,7 +58,7 @@ export default function SaveOfflineButton(props: Props) {
       onClick={save}
       disabled={state !== "idle"}
       className={`rounded-full border px-3 py-1.5 text-sm transition ${
-        state === "done" ? "border-moss bg-moss/10 text-moss" : "border-stone/15 bg-white hover:border-moss/50"
+        state === "done" ? "border-moss bg-moss/10 text-moss" : "border-stone/15 bg-panel hover:border-moss/50"
       }`}
     >
       {state === "done" ? props.labels.done : state === "saving" ? props.labels.saving : `⬇ ${props.labels.idle}`}

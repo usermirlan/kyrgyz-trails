@@ -28,7 +28,7 @@ export default function Filters({ t }: { t: Dict }) {
       selectedDifficulty.includes(v) ? selectedDifficulty.filter((d) => d !== v) : [...selectedDifficulty, v],
     );
 
-  const field = "rounded-xl border border-stone/15 bg-white px-3 py-2 text-sm outline-none focus:border-sky";
+  const field = "rounded-xl border border-stone/15 bg-panel px-3 py-2 text-sm outline-none focus:border-sky";
 
   return (
     <div className={`flex flex-wrap items-center gap-3 transition-opacity ${pending ? "opacity-60" : ""}`}>
@@ -81,7 +81,7 @@ export default function Filters({ t }: { t: Dict }) {
               onClick={() => toggleDifficulty(v)}
               aria-pressed={on}
               className={`rounded-full border px-3 py-1.5 text-sm transition ${
-                on ? "border-stone bg-stone text-white" : "border-stone/15 bg-white hover:border-stone/40"
+                on ? "border-white bg-white text-ink" : "border-stone/15 bg-panel hover:border-stone/40"
               }`}
             >
               {label}

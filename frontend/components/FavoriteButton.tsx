@@ -28,7 +28,7 @@ export default function FavoriteButton({
       aria-pressed={fav}
       title={fav ? labels.remove : labels.add}
       className={`rounded-full border px-3 py-1.5 text-sm transition ${
-        fav ? "border-ember bg-ember/10 text-ember" : "border-stone/15 bg-white hover:border-ember/50"
+        fav ? "border-ember bg-ember/10 text-ember" : "border-stone/15 bg-panel hover:border-ember/50"
       }`}
     >
       {fav ? "♥" : "♡"} <span className="hidden sm:inline">{fav ? labels.remove : labels.add}</span>

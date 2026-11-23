@@ -6,14 +6,14 @@ import type { Map as MLMap } from "maplibre-gl";
 type MapPoint = { slug: string; title: string; lat: number; lng: number; difficulty: string };
 
 const COLORS: Record<string, string> = {
-  easy: "#3f6b4f",
-  moderate: "#4a7ba6",
-  hard: "#c8553d",
-  expert: "#2b2d2a",
+  easy: "#5fbf8f",
+  moderate: "#4c9be8",
+  hard: "#f08a5d",
+  expert: "#e8eef7",
 };
 
-// Free vector tiles, no API key: https://openfreemap.org
-const STYLE = "https://tiles.openfreemap.org/styles/liberty";
+// Free vector tiles, no API key: https://openfreemap.org (dark style to match the site)
+const STYLE = "https://tiles.openfreemap.org/styles/dark";
 
 export default function TrailMap({
   points,
@@ -48,7 +48,7 @@ export default function TrailMap({
         const el = document.createElement("a");
         el.href = `/trails/${p.slug}`;
         el.title = p.title;
-        el.style.cssText = `display:block;width:16px;height:16px;border-radius:9999px;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.4);background:${COLORS[p.difficulty] ?? "#333"}`;
+        el.style.cssText = `display:block;width:16px;height:16px;border-radius:9999px;border:2px solid #07090d;box-shadow:0 1px 4px rgba(0,0,0,.4);background:${COLORS[p.difficulty] ?? "#333"}`;
         new maplibregl.Marker({ element: el })
           .setLngLat([p.lng, p.lat])
           .setPopup(new maplibregl.Popup({ offset: 12 }).setText(p.title))

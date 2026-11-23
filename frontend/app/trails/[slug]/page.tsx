@@ -73,7 +73,7 @@ export default async function TrailPage({ params }: Props) {
       </div>
       <p className="mt-2 text-stone/70">{trail.summary}</p>
 
-      <div className="mt-6 grid grid-cols-2 gap-4 rounded-2xl border border-stone/10 bg-white p-5 sm:grid-cols-4">
+      <div className="mt-6 grid grid-cols-2 gap-4 rounded-2xl border border-stone/10 bg-panel p-5 sm:grid-cols-4">
         <Stat label={t.distance} value={`${trail.distance_km} ${t.km}`} />
         <Stat label={t.gain} value={`+${trail.elevation_gain_m} ${t.m}`} />
         <Stat label={t.maxElevation} value={`${trail.max_elevation_m} ${t.m}`} />
@@ -87,7 +87,7 @@ export default async function TrailPage({ params }: Props) {
         />
       </div>
 
-      <section className="mt-6 rounded-2xl border border-stone/10 bg-white p-5">
+      <section className="mt-6 rounded-2xl border border-stone/10 bg-panel p-5">
         <h2 className="mb-2 text-lg font-semibold">{t.elevationProfile}</h2>
         {trail.elevation_profile.length > 1 ? (
           <ElevationProfile profile={trail.elevation_profile} labels={{ km: t.km, m: t.m }} />
@@ -122,7 +122,7 @@ export default async function TrailPage({ params }: Props) {
               <div
                 key={m}
                 className={`rounded-lg py-1.5 text-center text-xs ${
-                  trail.best_months.includes(i + 1) ? "bg-moss text-white" : "bg-stone/5 text-stone/40"
+                  trail.best_months.includes(i + 1) ? "bg-moss text-ink" : "bg-stone/5 text-stone/40"
                 }`}
               >
                 {m}

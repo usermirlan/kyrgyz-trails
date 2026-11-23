@@ -26,7 +26,7 @@ export default async function Weather({ slug, t }: { slug: string; t: Dict }) {
       {days.map((d) => {
         const date = new Date(`${d.date}T00:00:00`);
         return (
-          <div key={d.date} className="rounded-xl bg-white p-2 text-center text-sm ring-1 ring-stone/10">
+          <div key={d.date} className="rounded-xl bg-panel p-2 text-center text-sm ring-1 ring-stone/10">
             <div className="text-xs text-stone/50">
               {date.getDate()} {t.months[date.getMonth()]}
             </div>

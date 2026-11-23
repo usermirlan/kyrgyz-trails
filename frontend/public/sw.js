@@ -1,11 +1,11 @@
 /* Too Arna service worker — offline pages + map tiles for the mountains (no signal up there). */
-const VERSION = "v1";
+const VERSION = "v2";
 const PAGES = `pages-${VERSION}`;
 const STATIC = `static-${VERSION}`;
 const TILES = `tiles-${VERSION}`;
 const OFFLINE_URL = "/offline";
 const MAP_HOST = "tiles.openfreemap.org";
-const STYLE_URL = `https://${MAP_HOST}/styles/liberty`;
+const STYLE_URL = `https://${MAP_HOST}/styles/dark`;
 const MAX_TILES = 600;
 
 self.addEventListener("install", (event) => {

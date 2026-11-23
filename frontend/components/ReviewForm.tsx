@@ -7,10 +7,10 @@ import type { Dict } from "@/lib/i18n";
 export default function ReviewForm({ slug, t }: { slug: string; t: Dict }) {
   const [state, action, pending] = useActionState<FormState, FormData>(submitReview, {});
   const [rating, setRating] = useState(0);
-  const field = "w-full rounded-xl border border-stone/15 bg-white px-3 py-2 text-sm outline-none focus:border-sky";
+  const field = "w-full rounded-xl border border-stone/15 bg-panel px-3 py-2 text-sm outline-none focus:border-sky";
 
   return (
-    <form action={action} className="space-y-3 rounded-2xl border border-stone/10 bg-white p-4">
+    <form action={action} className="space-y-3 rounded-2xl border border-stone/10 bg-panel p-4">
       <input type="hidden" name="slug" value={slug} />
       <input type="hidden" name="rating" value={rating} />
       <div className="flex items-center gap-2">
@@ -45,7 +45,7 @@ export default function ReviewForm({ slug, t }: { slug: string; t: Dict }) {
       {state.error && <p className="text-sm text-ember">{state.error}</p>}
       <button
         disabled={pending || rating === 0}
-        className="rounded-xl bg-stone px-4 py-2 text-sm font-medium text-white disabled:opacity-40"
+        className="rounded-xl bg-white px-4 py-2 text-sm font-medium text-ink disabled:opacity-40"
       >
         {t.submit}
       </button>

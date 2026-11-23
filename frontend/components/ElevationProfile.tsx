@@ -30,8 +30,8 @@ export default function ElevationProfile({
     <svg viewBox={`0 0 ${W} ${H}`} className="w-full" role="img" aria-label={`${Math.round(minE)}–${Math.round(maxE)} ${labels.m}`}>
       <defs>
         <linearGradient id="elev" x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0%" stopColor="#3f6b4f" stopOpacity="0.35" />
-          <stop offset="100%" stopColor="#3f6b4f" stopOpacity="0.03" />
+          <stop offset="0%" stopColor="#5fbf8f" stopOpacity="0.35" />
+          <stop offset="100%" stopColor="#5fbf8f" stopOpacity="0.03" />
         </linearGradient>
       </defs>
       {yTicks.map((v) => (
@@ -46,9 +46,9 @@ export default function ElevationProfile({
         </text>
       ))}
       <path d={area} fill="url(#elev)" />
-      <path d={line} fill="none" stroke="#3f6b4f" strokeWidth="2" strokeLinejoin="round" />
-      <circle cx={x(peak[0])} cy={y(peak[1])} r="4" fill="#c8553d" />
-      <text x={x(peak[0])} y={y(peak[1]) - 8} textAnchor="middle" fontSize="11" fontWeight="600" fill="#c8553d">
+      <path d={line} fill="none" stroke="#5fbf8f" strokeWidth="2" strokeLinejoin="round" />
+      <circle cx={x(peak[0])} cy={y(peak[1])} r="4" fill="#f08a5d" />
+      <text x={x(peak[0])} y={y(peak[1]) - 8} textAnchor="middle" fontSize="11" fontWeight="600" fill="#f08a5d">
         {Math.round(peak[1])} {labels.m}
       </text>
     </svg>

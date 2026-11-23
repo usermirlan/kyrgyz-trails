@@ -40,7 +40,7 @@ export default async function Reviews({
       ) : (
         <ul className="space-y-3">
           {reviews.map((r) => (
-            <li key={r.id} className="rounded-2xl border border-stone/10 bg-white p-4">
+            <li key={r.id} className="rounded-2xl border border-stone/10 bg-panel p-4">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <div className="flex items-center gap-2">
                   <span className="font-medium">{r.author}</span>

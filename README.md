@@ -105,5 +105,14 @@ frontend/
 
 Seed'деги координаттар, аралыктар жана бийиктиктер **болжолдуу**. Коомчулукка чыгараардан мурда ар бир маршрутту чыныгы GPX трек менен текшериңиз.
 
+## Сүрөттөр
+
+Бардык сүрөттөр [Unsplash](https://unsplash.com) лицензиясы менен колдонулат:
+
+- `hero.jpg` — Amir Asake, «Mountains of North Kyrgyzstan»
+- `lake.jpg` — Ilya Yudin
+- `valley.jpg` — Denis Volkov
+- `hills.jpg` — Bakhtiyar Ibragimov
+
 ---
 Карта: [OpenFreeMap](https://openfreemap.org) · © OpenStreetMap contributors · Аба ырайы: [Open-Meteo](https://open-meteo.com)

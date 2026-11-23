@@ -7,7 +7,7 @@ import type { Dict } from "@/lib/i18n";
 
 export default function AuthForm({ mode, next, t }: { mode: "login" | "register"; next: string; t: Dict }) {
   const [state, action, pending] = useActionState<FormState, FormData>(mode === "login" ? login : register, {});
-  const field = "w-full rounded-xl border border-stone/15 bg-white px-3 py-2.5 outline-none focus:border-sky";
+  const field = "w-full rounded-xl border border-stone/15 bg-panel px-3 py-2.5 outline-none focus:border-sky";
 
   return (
     <form action={action} className="space-y-4">
@@ -34,7 +34,7 @@ export default function AuthForm({ mode, next, t }: { mode: "login" | "register"
         />
       </label>
       {state.error && <p className="rounded-lg bg-ember/10 px-3 py-2 text-sm text-ember">{state.error}</p>}
-      <button disabled={pending} className="w-full rounded-xl bg-stone py-2.5 font-medium text-white disabled:opacity-50">
+      <button disabled={pending} className="w-full rounded-xl bg-white py-2.5 font-medium text-ink disabled:opacity-50">
         {mode === "login" ? t.login : t.register}
       </button>
       <p className="text-center text-sm text-stone/60">
