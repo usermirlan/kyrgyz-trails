@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import type { Map as MLMap } from "maplibre-gl";
+import { collapseAttribution } from "@/lib/map";
 
 type MapPoint = { slug: string; title: string; lat: number; lng: number; difficulty: string };
 
@@ -39,6 +40,7 @@ export default function TrailMap({
         style: STYLE,
         center: [75.0, 41.8], // Kyrgyzstan
         zoom: 5.5,
+        attributionControl: { compact: true },
       });
       map.addControl(new maplibregl.NavigationControl(), "top-right");
       mapRef.current = map;
@@ -57,6 +59,7 @@ export default function TrailMap({
       }
 
       map.on("load", () => {
+        collapseAttribution(map);
         if (route?.length) {
           map.addSource("route", {
             type: "geojson",

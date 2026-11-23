@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, useTransition } from "react";
 import type { GeoJSONSource, Map as MLMap } from "maplibre-gl";
+import { collapseAttribution } from "@/lib/map";
 import Link from "next/link";
 import { analyzeRoute, deleteRoute, saveRoute } from "@/app/actions";
 import ElevationProfile from "@/components/ElevationProfile";
@@ -84,12 +85,19 @@ export default function RouteBuilder({
     (async () => {
       const maplibregl = (await import("maplibre-gl")).default;
       if (cancelled || !container.current) return;
-      const map = new maplibregl.Map({ container: container.current, style: STYLE, center: START, zoom: 10 });
+      const map = new maplibregl.Map({
+        container: container.current,
+        style: STYLE,
+        center: START,
+        zoom: 10,
+        attributionControl: { compact: true },
+      });
       map.addControl(new maplibregl.NavigationControl(), "top-right");
       map.getCanvas().style.cursor = "crosshair";
       mapRef.current = map;
 
       map.on("load", () => {
+        collapseAttribution(map);
         map.addSource("dem", {
           type: "raster-dem",
           tiles: [DEM_TILES],
@@ -248,7 +256,7 @@ export default function RouteBuilder({
       <div className="relative">
         <div ref={container} className="h-[480px] w-full overflow-hidden rounded-3xl border border-line lg:h-[calc(100vh-9rem)]" />
         {points.length === 0 && (
-          <div className="pointer-events-none absolute inset-x-0 top-4 mx-auto w-fit rounded-full bg-ink/85 px-4 py-2 text-sm font-semibold">
+          <div className="pointer-events-none absolute left-3 right-14 top-3 rounded-2xl bg-ink/85 px-3 py-2 text-xs font-semibold md:inset-x-0 md:top-4 md:mx-auto md:w-fit md:rounded-full md:px-4 md:text-sm">
             👆 {t.builderHint}
           </div>
         )}

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import type { GeoJSONSource, Map as MLMap } from "maplibre-gl";
+import { collapseAttribution } from "@/lib/map";
 import { getDirections } from "@/app/actions";
 import type { DirectionStep, Directions } from "@/lib/api";
 import type { Dict } from "@/lib/i18n";
@@ -91,6 +92,7 @@ export default function DrivingDirections({ slug, t }: { slug: string; t: Dict }
       map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
       mapRef.current = map;
       map.on("load", () => {
+        collapseAttribution(map);
         map.addSource("drive", { type: "geojson", data: { type: "FeatureCollection", features: [] }, attribution: "Routing: OSRM / FOSSGIS" });
         map.addLayer({ id: "drive-casing", type: "line", source: "drive", layout: { "line-join": "round", "line-cap": "round" }, paint: { "line-color": "#07090d", "line-width": 8 } });
         map.addLayer({ id: "drive", type: "line", source: "drive", layout: { "line-join": "round", "line-cap": "round" }, paint: { "line-color": "#4c9be8", "line-width": 5 } });

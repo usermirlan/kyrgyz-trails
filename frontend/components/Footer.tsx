@@ -134,7 +134,7 @@ export default async function Footer() {
         </div>
       </div>
 
-      <div aria-hidden="true" className="text-photo whitespace-nowrap pt-16 text-center font-display text-[17vw] font-extrabold leading-[0.82] tracking-[-0.035em] xl:text-[250px]">
+      <div aria-hidden="true" className="text-photo whitespace-nowrap pt-16 text-center font-display text-[14.5vw] font-extrabold leading-[0.82] tracking-[-0.035em]">
         TOO ARNA
       </div>
 

@@ -9,6 +9,7 @@ export function isLang(v: unknown): v is Lang {
 const ky = {
   navTrails: "Маршруттар",
   navBuilder: "Маршрут түзүү",
+  menu: "Меню",
   followTrails: "🥾 Жол менен",
   straightLine: "📏 Түз сызык",
   followTrailsHint: "Маршрут OpenStreetMap'теги жолдор жана тропалар боюнча түшөт",
@@ -193,6 +194,7 @@ export type Dict = typeof ky;
 const ru: Dict = {
   navTrails: "Маршруты",
   navBuilder: "Создать маршрут",
+  menu: "Меню",
   followTrails: "🥾 По тропам",
   straightLine: "📏 По прямой",
   followTrailsHint: "Маршрут прокладывается по дорогам и тропам OpenStreetMap",
@@ -375,6 +377,7 @@ const ru: Dict = {
 const en: Dict = {
   navTrails: "Trails",
   navBuilder: "Route builder",
+  menu: "Menu",
   followTrails: "🥾 Follow trails",
   straightLine: "📏 Straight line",
   followTrailsHint: "The route snaps to OpenStreetMap roads and trails",
