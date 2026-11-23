@@ -276,3 +276,31 @@ def test_save_list_delete_routes(client, fake_elevations):
 def test_save_route_requires_login(client):
     r = client.post("/api/me/routes", {"title": "x", "points": ROUTE}, content_type="application/json")
     assert r.status_code == 401
+
+
+def test_analyze_route_following_trails(client, fake_elevations):
+    def leg(a, b):
+        return [(a[0], a[1], 1500.0), ((a[0] + b[0]) / 2 + 0.003, (a[1] + b[1]) / 2, 1600.0), (b[0], b[1], 1500.0)]
+
+    with mock.patch("trails.services.route_builder.fetch_trail_leg", side_effect=leg):
+        r = client.post(
+            "/api/routes/analyze", {"points": ROUTE, "follow_trails": True},
+            content_type="application/json",
+        )
+    assert r.status_code == 200, r.content
+    d = r.json()
+    assert d["follow_trails"] is True and d["straight_legs"] == 0
+    assert d["max_elevation_m"] == 1600
+    assert fake_elevations.call_count == 0
+
+
+def test_trail_not_found_falls_back_to_straight(client, fake_elevations):
+    from trails.services.route_builder import NoTrail
+
+    with mock.patch("trails.services.route_builder.fetch_trail_leg", side_effect=NoTrail("no")):
+        r = client.post(
+            "/api/routes/analyze", {"points": ROUTE, "follow_trails": True},
+            content_type="application/json",
+        )
+    assert r.status_code == 200
+    assert r.json()["straight_legs"] == 2

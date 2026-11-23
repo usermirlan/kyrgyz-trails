@@ -145,12 +145,15 @@ export type RouteStats = {
   duration_h: number;
   profile: [number, number][];
   path: [number, number, number][];
+  follow_trails: boolean;
+  straight_legs: number;
 };
 
 export type UserRoute = {
   id: number;
   title: string;
   waypoints: LngLat[];
+  follow_trails: boolean;
   distance_km: number;
   ascent_m: number;
   descent_m: number;

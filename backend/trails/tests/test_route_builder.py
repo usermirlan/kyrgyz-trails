@@ -78,3 +78,45 @@ def test_walking_hours_rule():
 def test_invalid_input(pts):
     with pytest.raises(RouteError):
         analyze(pts, elevations=flat)
+
+
+# ---- follow trails ---------------------------------------------------------
+
+def zigzag_router(a, b):
+    """Fake BRouter: a dog-leg via an intermediate point, with SRTM heights."""
+    mid = ((a[0] + b[0]) / 2 + 0.005, (a[1] + b[1]) / 2)
+    up = [(a[0] + (mid[0] - a[0]) * i / 10, a[1] + (mid[1] - a[1]) * i / 10, 1000.0 + 10 * i) for i in range(11)]
+    down = [(mid[0] + (b[0] - mid[0]) * i / 10, mid[1] + (b[1] - mid[1]) * i / 10, 1100.0 - 10 * i) for i in range(1, 11)]
+    return up + down
+
+
+def test_follow_trails_uses_routed_geometry_and_its_heights():
+    calls = []
+
+    def elevations(pts):
+        calls.append(len(pts))
+        return [0.0] * len(pts)
+
+    r = analyze([A, B], follow_trails=True, router=zigzag_router, elevations=elevations)
+    assert len(r["path"]) == 21 and r["max_elevation_m"] == 1100
+    assert r["distance_km"] > 1.11  # the detour is longer than the straight line
+    assert 90 <= r["ascent_m"] <= 100 and 90 <= r["descent_m"] <= 100
+    assert r["straight_legs"] == 0 and calls == []  # no DEM lookups needed
+
+
+def test_follow_trails_falls_back_to_straight_leg():
+    def router(a, b):
+        return None if a == B else zigzag_router(a, b)
+
+    r = analyze([A, B, (74.61, 42.81)], follow_trails=True, router=router, elevations=flat)
+    assert r["straight_legs"] == 1
+    assert r["path"][-1][:2] == [74.61, 42.81]
+
+
+def test_follow_trails_connects_snapped_ends():
+    def far_router(a, b):  # snaps both ends ~100 m away onto a path
+        return [(a[0] + 0.001, a[1], 900.0), (b[0] + 0.001, b[1], 900.0)]
+
+    r = analyze([A, B], follow_trails=True, router=far_router, elevations=flat)
+    assert r["path"][0][:2] == [74.6, 42.8] and r["path"][-1][:2] == [74.6, 42.81]
+    assert len(r["path"]) == 4

@@ -9,6 +9,10 @@ export function isLang(v: unknown): v is Lang {
 const ky = {
   navTrails: "Маршруттар",
   navBuilder: "Маршрут түзүү",
+  followTrails: "🥾 Жол менен",
+  straightLine: "📏 Түз сызык",
+  followTrailsHint: "Маршрут OpenStreetMap'теги жолдор жана тропалар боюнча түшөт",
+  straightLegs: "бөлүктө жакын жерде жол табылган жок — алар түз сызык менен көрсөтүлдү",
   builderEyebrow: "Маршрут конструктору",
   builderTitle: "Өз жолуңузду сызыңыз",
   builderLead: "Картаны басып чекит коюңуз — аралык, бийиктик жана жүрүү убактысы ошол замат эсептелет.",
@@ -165,6 +169,10 @@ export type Dict = typeof ky;
 const ru: Dict = {
   navTrails: "Маршруты",
   navBuilder: "Создать маршрут",
+  followTrails: "🥾 По тропам",
+  straightLine: "📏 По прямой",
+  followTrailsHint: "Маршрут прокладывается по дорогам и тропам OpenStreetMap",
+  straightLegs: "участк. рядом нет троп — показаны прямой линией",
   builderEyebrow: "Конструктор маршрутов",
   builderTitle: "Нарисуйте свой путь",
   builderLead: "Ставьте точки кликом по карте — расстояние, набор высоты и время в пути считаются сразу.",
@@ -319,6 +327,10 @@ const ru: Dict = {
 const en: Dict = {
   navTrails: "Trails",
   navBuilder: "Route builder",
+  followTrails: "🥾 Follow trails",
+  straightLine: "📏 Straight line",
+  followTrailsHint: "The route snaps to OpenStreetMap roads and trails",
+  straightLegs: "leg(s) have no trail nearby — shown as a straight line",
   builderEyebrow: "Route builder",
   builderTitle: "Draw your own path",
   builderLead: "Click the map to drop points — distance, elevation gain and walking time update instantly.",

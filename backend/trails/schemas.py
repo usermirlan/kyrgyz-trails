@@ -85,6 +85,8 @@ Coord = list[float]
 class RouteAnalyzeIn(Schema):
     # [[lng, lat], ...] in the order they were clicked
     points: list[Coord] = Field(min_length=2, max_length=300)
+    # route each leg along OpenStreetMap paths instead of a straight line
+    follow_trails: bool = False
 
 
 class RouteStats(Schema):
@@ -97,6 +99,9 @@ class RouteStats(Schema):
     profile: list[list[float]]
     # [[lng, lat, elevation_m], ...] sampled every ~50 m
     path: list[list[float]]
+    follow_trails: bool
+    # legs that stayed straight because no trail was found nearby
+    straight_legs: int
 
 
 class RouteSaveIn(RouteAnalyzeIn):
@@ -107,6 +112,7 @@ class UserRouteOut(Schema):
     id: int
     title: str
     waypoints: list[Coord]
+    follow_trails: bool
     distance_km: float
     ascent_m: int
     descent_m: int

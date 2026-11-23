@@ -140,6 +140,7 @@ class UserRoute(models.Model):
     title = models.CharField(max_length=120)
     # [[lng, lat], ...] as clicked — kept so the route can be edited again
     waypoints = models.JSONField()
+    follow_trails = models.BooleanField(default=False)
     path = models.LineStringField(geography=True, srid=4326)
     distance_km = models.DecimalField(max_digits=6, decimal_places=2)
     ascent_m = models.PositiveIntegerField()

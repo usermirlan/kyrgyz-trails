@@ -76,6 +76,7 @@ export default function RouteBuilder({
   const [saveMsg, setSaveMsg] = useState<string | null>(null);
   const [saving, startSave] = useTransition();
   const [ready, setReady] = useState(false);
+  const [followTrails, setFollowTrails] = useState(true);
 
   // Map: created once; clicks append a waypoint
   useEffect(() => {
@@ -113,7 +114,14 @@ export default function RouteBuilder({
           },
           firstSymbol,
         );
-        map.addSource("line", { type: "geojson", data: lineFC([]) });
+        map.addSource("preview", { type: "geojson", data: lineFC([]) });
+        map.addSource("line", { type: "geojson", data: lineFC([]), attribution: "Routing: BRouter" });
+        map.addLayer({
+          id: "preview",
+          type: "line",
+          source: "preview",
+          paint: { "line-color": "#e8eef7", "line-width": 2, "line-opacity": 0.55, "line-dasharray": [2, 2] },
+        });
         map.addSource("pts", { type: "geojson", data: pointsFC([]) });
         map.addLayer({
           id: "line-casing",
@@ -156,12 +164,13 @@ export default function RouteBuilder({
   // Redraw + recalculate (debounced) whenever the waypoints change
   useEffect(() => {
     const map = mapRef.current;
-    if (ready && map) {
-      (map.getSource("line") as GeoJSONSource | undefined)?.setData(lineFC(points));
-      (map.getSource("pts") as GeoJSONSource | undefined)?.setData(pointsFC(points));
-    }
+    const src = (id: string) => (ready ? (map?.getSource(id) as GeoJSONSource | undefined) : undefined);
+    src("pts")?.setData(pointsFC(points));
+    // dashed straight preview while the real path is being calculated
+    src("preview")?.setData(lineFC(points));
     setSaveMsg(null);
     if (points.length < 2) {
+      src("line")?.setData(lineFC([]));
       setStats(null);
       setError(null);
       return;
@@ -169,17 +178,21 @@ export default function RouteBuilder({
     let stale = false;
     setLoading(true);
     const id = setTimeout(async () => {
-      const r = await analyzeRoute(points);
+      const r = await analyzeRoute(points, followTrails);
       if (stale) return;
       setLoading(false);
       setError(r.error ?? null);
-      if (r.stats) setStats(r.stats);
+      if (r.stats) {
+        setStats(r.stats);
+        src("line")?.setData(lineFC(r.stats.path.map(([lng, lat]) => [lng, lat] as LngLat)));
+        src("preview")?.setData(lineFC([]));
+      }
     }, 450);
     return () => {
       stale = true;
       clearTimeout(id);
     };
-  }, [points, ready]);
+  }, [points, ready, followTrails]);
 
   // Ctrl/Cmd+Z removes the last point
   useEffect(() => {
@@ -197,6 +210,7 @@ export default function RouteBuilder({
   async function openRoute(r: UserRoute) {
     setPoints(r.waypoints);
     setTitle(r.title);
+    setFollowTrails(r.follow_trails);
     const map = mapRef.current;
     if (!map) return;
     const maplibregl = (await import("maplibre-gl")).default;
@@ -221,7 +235,7 @@ export default function RouteBuilder({
     const name = title.trim();
     if (!name || points.length < 2) return;
     startSave(async () => {
-      const r = await saveRoute(name, points);
+      const r = await saveRoute(name, points, followTrails);
       setSaveMsg(r.error ?? t.savedOk);
     });
   }
@@ -261,6 +275,21 @@ export default function RouteBuilder({
 
       <aside className="flex flex-col gap-5">
         <div className="rounded-3xl border border-line bg-panel p-5">
+          <div role="radiogroup" aria-label={t.followTrailsHint} className="mb-2 grid grid-cols-2 gap-1 rounded-full border border-line bg-ink p-1">
+            {[true, false].map((v) => (
+              <button
+                key={String(v)}
+                type="button"
+                role="radio"
+                aria-checked={followTrails === v}
+                onClick={() => setFollowTrails(v)}
+                className={`rounded-full px-3 py-2 text-sm font-semibold ${followTrails === v ? "bg-white text-ink" : "text-muted hover:text-stone"}`}
+              >
+                {v ? t.followTrails : t.straightLine}
+              </button>
+            ))}
+          </div>
+          <p className="mb-4 text-xs text-muted">{followTrails ? t.followTrailsHint : "\u00a0"}</p>
           <div className="grid grid-cols-2 gap-3">
             <div className={stat}>
               <div className="text-xs text-muted">{t.distance}</div>
@@ -286,7 +315,13 @@ export default function RouteBuilder({
           </div>
 
           <div className="mt-4 min-h-6 text-sm" aria-live="polite">
-            {loading ? <span className="text-muted">{t.analyzing}</span> : error ? <span className="text-ember">{error}</span> : null}
+            {loading ? (
+              <span className="text-muted">{t.analyzing}</span>
+            ) : error ? (
+              <span className="text-ember">{error}</span>
+            ) : stats && stats.straight_legs > 0 ? (
+              <span className="text-[#f0c35d]">⚠ {stats.straight_legs} {t.straightLegs}</span>
+            ) : null}
           </div>
           {stats && <ElevationProfile profile={stats.profile} labels={{ km: t.km, m: t.m }} />}
 

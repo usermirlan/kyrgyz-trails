@@ -139,20 +139,29 @@ export async function planTrip(_: PlanState, form: FormData): Promise<PlanState>
 
 export type RouteResult = { stats?: RouteStats; error?: string };
 
-export async function analyzeRoute(points: LngLat[]): Promise<RouteResult> {
+export async function analyzeRoute(points: LngLat[], followTrails: boolean): Promise<RouteResult> {
   if (points.length < 2) return {};
   try {
-    return { stats: await api<RouteStats>("/routes/analyze", { method: "POST", body: { points } }) };
+    return {
+      stats: await api<RouteStats>("/routes/analyze", {
+        method: "POST",
+        body: { points, follow_trails: followTrails },
+      }),
+    };
   } catch (e) {
     return { error: message(e) };
   }
 }
 
-export async function saveRoute(title: string, points: LngLat[]): Promise<{ route?: UserRoute; error?: string }> {
+export async function saveRoute(
+  title: string,
+  points: LngLat[],
+  followTrails: boolean,
+): Promise<{ route?: UserRoute; error?: string }> {
   const token = await getToken();
   if (!token) redirect("/login?next=/builder");
   try {
-    const route = await api<UserRoute>("/me/routes", { method: "POST", token, body: { title, points } });
+    const route = await api<UserRoute>("/me/routes", { method: "POST", token, body: { title, points, follow_trails: followTrails } });
     revalidatePath("/builder");
     return { route };
   } catch (e) {

@@ -16,11 +16,11 @@ router = Router(tags=["routes"])
 MAX_ROUTES_PER_USER = 50
 
 
-def _analyze(points: list[list[float]]) -> dict:
+def _analyze(points: list[list[float]], follow_trails: bool) -> dict:
     if any(len(p) != 2 for p in points):
         raise HttpError(422, "Ар бир чекит [lng, lat] болушу керек")
     try:
-        return analyze(points)
+        return analyze(points, follow_trails=follow_trails)
     except RouteError as e:
         raise HttpError(422, str(e)) from e
 
@@ -28,7 +28,7 @@ def _analyze(points: list[list[float]]) -> dict:
 @router.post("/routes/analyze", response=RouteStats)
 def analyze_route(request, data: RouteAnalyzeIn):
     """Distance, ascent/descent, walking time and elevation profile for drawn waypoints."""
-    return _analyze(data.points)
+    return _analyze(data.points, data.follow_trails)
 
 
 @router.get("/me/routes", response=list[UserRouteOut], auth=token_auth)
@@ -40,11 +40,12 @@ def my_routes(request):
 def save_route(request, data: RouteSaveIn):
     if UserRoute.objects.filter(user=request.auth).count() >= MAX_ROUTES_PER_USER:
         raise HttpError(400, f"Эң көп {MAX_ROUTES_PER_USER} маршрут сактаса болот")
-    stats = _analyze(data.points)
+    stats = _analyze(data.points, data.follow_trails)
     route = UserRoute.objects.create(
         user=request.auth,
         title=data.title.strip(),
         waypoints=data.points,
+        follow_trails=data.follow_trails,
         path=LineString([(p[0], p[1]) for p in stats["path"]], srid=4326),
         distance_km=stats["distance_km"],
         ascent_m=stats["ascent_m"],
