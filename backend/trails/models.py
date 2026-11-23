@@ -131,3 +131,26 @@ class Favorite(models.Model):
         constraints = [
             models.UniqueConstraint(fields=["trail", "user"], name="unique_favorite")
         ]
+
+
+class UserRoute(models.Model):
+    """A route the user drew on the map in the route builder."""
+
+    user = models.ForeignKey("auth.User", on_delete=models.CASCADE, related_name="routes")
+    title = models.CharField(max_length=120)
+    # [[lng, lat], ...] as clicked — kept so the route can be edited again
+    waypoints = models.JSONField()
+    path = models.LineStringField(geography=True, srid=4326)
+    distance_km = models.DecimalField(max_digits=6, decimal_places=2)
+    ascent_m = models.PositiveIntegerField()
+    descent_m = models.PositiveIntegerField()
+    max_elevation_m = models.IntegerField()
+    duration_h = models.FloatField()
+    elevation_profile = models.JSONField(default=list)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+
+    def __str__(self) -> str:
+        return f"{self.title} ({self.user_id})"

@@ -16,6 +16,7 @@ export default async function Header() {
 
         <nav className="flex flex-wrap items-center gap-1 rounded-full border border-white/15 bg-white/5 p-1">
           <Link href="/#trails" className={link}>{t.navTrails}</Link>
+          <Link href="/builder" className={link}>✏️ {t.navBuilder}</Link>
           <Link href="/planner" className={link}>✨ {t.planner}</Link>
           {user && <Link href="/favorites" className={link}>♥ {t.favorites}</Link>}
         </nav>

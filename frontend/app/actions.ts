@@ -3,7 +3,7 @@
 import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { api, ApiError, type PlanResult, type User } from "@/lib/api";
+import { api, ApiError, type LngLat, type PlanResult, type RouteStats, type User, type UserRoute } from "@/lib/api";
 import { isLang } from "@/lib/i18n";
 import { getLang, getToken, LANG_COOKIE, TOKEN_COOKIE } from "@/lib/session";
 
@@ -133,4 +133,38 @@ export async function planTrip(_: PlanState, form: FormData): Promise<PlanState>
   } catch (e) {
     return { error: message(e), prompt };
   }
+}
+
+// ---- route builder ---------------------------------------------------------
+
+export type RouteResult = { stats?: RouteStats; error?: string };
+
+export async function analyzeRoute(points: LngLat[]): Promise<RouteResult> {
+  if (points.length < 2) return {};
+  try {
+    return { stats: await api<RouteStats>("/routes/analyze", { method: "POST", body: { points } }) };
+  } catch (e) {
+    return { error: message(e) };
+  }
+}
+
+export async function saveRoute(title: string, points: LngLat[]): Promise<{ route?: UserRoute; error?: string }> {
+  const token = await getToken();
+  if (!token) redirect("/login?next=/builder");
+  try {
+    const route = await api<UserRoute>("/me/routes", { method: "POST", token, body: { title, points } });
+    revalidatePath("/builder");
+    return { route };
+  } catch (e) {
+    return { error: message(e) };
+  }
+}
+
+export async function deleteRoute(id: number) {
+  const token = await getToken();
+  if (!token) return;
+  try {
+    await api(`/me/routes/${id}`, { method: "DELETE", token });
+  } catch {}
+  revalidatePath("/builder");
 }

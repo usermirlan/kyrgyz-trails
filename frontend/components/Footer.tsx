@@ -114,6 +114,7 @@ export default async function Footer() {
         <div className="flex flex-col gap-3.5">
           <strong className={heading}>{t.footerFeatures}</strong>
           <Link href="/planner" className={flink}>{t.planner}</Link>
+          <Link href="/builder" className={flink}>{t.navBuilder}</Link>
           <Link href="/#trails" className={flink}>{t.footerMap}</Link>
           <Link href="/offline" className={flink}>{t.footerOffline}</Link>
           <Link href="/favorites" className={flink}>{t.favorites}</Link>

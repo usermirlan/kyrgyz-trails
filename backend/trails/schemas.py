@@ -75,3 +75,41 @@ class ReviewOut(Schema):
 
 class FavoriteToggleOut(Schema):
     favorited: bool
+
+
+# ---- route builder ----------------------------------------------------------
+
+Coord = list[float]
+
+
+class RouteAnalyzeIn(Schema):
+    # [[lng, lat], ...] in the order they were clicked
+    points: list[Coord] = Field(min_length=2, max_length=300)
+
+
+class RouteStats(Schema):
+    distance_km: float
+    ascent_m: int
+    descent_m: int
+    min_elevation_m: int
+    max_elevation_m: int
+    duration_h: float
+    profile: list[list[float]]
+    # [[lng, lat, elevation_m], ...] sampled every ~50 m
+    path: list[list[float]]
+
+
+class RouteSaveIn(RouteAnalyzeIn):
+    title: str = Field(min_length=1, max_length=120)
+
+
+class UserRouteOut(Schema):
+    id: int
+    title: str
+    waypoints: list[Coord]
+    distance_km: float
+    ascent_m: int
+    descent_m: int
+    max_elevation_m: int
+    duration_h: float
+    created_at: datetime

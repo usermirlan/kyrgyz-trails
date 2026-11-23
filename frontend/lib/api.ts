@@ -131,3 +131,32 @@ export const getFavorites = (token: string, lang: string) =>
   api<Trail[]>("/me/favorites", { token, params: new URLSearchParams({ lang }) });
 
 export const getFavoriteSlugs = (token: string) => api<string[]>("/me/favorite-slugs", { token });
+
+// ---- route builder ---------------------------------------------------------
+
+export type LngLat = [number, number];
+
+export type RouteStats = {
+  distance_km: number;
+  ascent_m: number;
+  descent_m: number;
+  min_elevation_m: number;
+  max_elevation_m: number;
+  duration_h: number;
+  profile: [number, number][];
+  path: [number, number, number][];
+};
+
+export type UserRoute = {
+  id: number;
+  title: string;
+  waypoints: LngLat[];
+  distance_km: number;
+  ascent_m: number;
+  descent_m: number;
+  max_elevation_m: number;
+  duration_h: number;
+  created_at: string;
+};
+
+export const getMyRoutes = (token: string) => api<UserRoute[]>("/me/routes", { token });

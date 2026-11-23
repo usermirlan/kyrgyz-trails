@@ -2,7 +2,7 @@ from django import forms
 from django.contrib import messages
 from django.contrib.gis import admin
 
-from .models import Favorite, Review, Trail, TrailTranslation
+from .models import Favorite, Review, Trail, TrailTranslation, UserRoute
 from .services.gpx import GPXError
 from .services.trail_gpx import apply_gpx
 
@@ -59,3 +59,9 @@ class ReviewAdmin(admin.ModelAdmin):
 @admin.register(Favorite)
 class FavoriteAdmin(admin.ModelAdmin):
     list_display = ("trail", "user", "created_at")
+
+
+@admin.register(UserRoute)
+class UserRouteAdmin(admin.GISModelAdmin):
+    list_display = ("title", "user", "distance_km", "ascent_m", "created_at")
+    search_fields = ("title", "user__email")

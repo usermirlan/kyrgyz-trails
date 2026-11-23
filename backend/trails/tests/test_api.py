@@ -211,3 +211,68 @@ def test_planner_uses_real_tools(client, monkeypatch):
     body = r.json()
     assert len(body["trail_slugs"]) == 1
     assert body["tool_calls"][0]["tool"] == "search_trails"
+
+
+# ---- route builder ----------------------------------------------------------
+
+ROUTE = [[74.60, 42.80], [74.60, 42.81], [74.61, 42.81]]
+
+
+@pytest.fixture
+def fake_elevations():
+    def climb(points):
+        return [1000.0 + 10.0 * i for i in range(len(points))]
+
+    with mock.patch("trails.services.route_builder.fetch_elevations", side_effect=climb) as m:
+        yield m
+
+
+def test_analyze_route(client, fake_elevations):
+    r = client.post("/api/routes/analyze", {"points": ROUTE}, content_type="application/json")
+    assert r.status_code == 200, r.content
+    d = r.json()
+    assert 1.9 < d["distance_km"] < 2.1
+    assert d["ascent_m"] > 0 and d["descent_m"] == 0
+    assert len(d["path"][0]) == 3 and d["profile"][0][0] == 0
+
+
+def test_analyze_route_needs_two_points(client):
+    r = client.post("/api/routes/analyze", {"points": [[74.6, 42.8]]}, content_type="application/json")
+    assert r.status_code == 422
+
+
+def test_analyze_route_elevation_service_down(client):
+    import httpx
+
+    with mock.patch(
+        "trails.services.route_builder.fetch_elevations", side_effect=httpx.ConnectError("down")
+    ):
+        r = client.post("/api/routes/analyze", {"points": ROUTE}, content_type="application/json")
+    assert r.status_code == 422
+
+
+def test_save_list_delete_routes(client, fake_elevations):
+    h = auth_header(client)
+    r = client.post(
+        "/api/me/routes", {"title": "Менин жолум", "points": ROUTE},
+        content_type="application/json", **h,
+    )
+    assert r.status_code == 201, r.content
+    rid = r.json()["id"]
+    assert r.json()["waypoints"] == ROUTE
+
+    mine = client.get("/api/me/routes", **h).json()
+    assert [x["id"] for x in mine] == [rid]
+
+    # someone else can neither see nor delete it
+    other = auth_header(client, email="b@test.kg")
+    assert client.get("/api/me/routes", **other).json() == []
+    assert client.delete(f"/api/me/routes/{rid}", **other).status_code == 404
+
+    assert client.delete(f"/api/me/routes/{rid}", **h).status_code == 204
+    assert client.get("/api/me/routes", **h).json() == []
+
+
+def test_save_route_requires_login(client):
+    r = client.post("/api/me/routes", {"title": "x", "points": ROUTE}, content_type="application/json")
+    assert r.status_code == 401
