@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
+import DrivingDirections from "@/components/DrivingDirections";
 import ElevationProfile from "@/components/ElevationProfile";
 import FavoriteButton from "@/components/FavoriteButton";
 import Reviews from "@/components/Reviews";
@@ -102,6 +103,8 @@ export default async function TrailPage({ params }: Props) {
           <Weather slug={slug} t={t} />
         </Suspense>
       </section>
+
+      <DrivingDirections slug={slug} t={t} />
 
       <div className="mt-8 grid gap-8 md:grid-cols-[2fr_1fr]">
         <section>

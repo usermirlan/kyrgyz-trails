@@ -12,7 +12,8 @@ from ninja.files import UploadedFile
 from accounts.auth import token_auth
 
 from ..models import Difficulty, Locale, Region, Review, Trail, TrailTranslation
-from ..schemas import Meta, TrailDetail, TrailListItem, WeatherDay
+from ..schemas import Directions, Meta, TrailDetail, TrailListItem, WeatherDay
+from ..services import directions as directions_service
 from ..services.gpx import GPXError
 from ..services.trail_gpx import apply_gpx
 from ..services.weather import forecast
@@ -131,6 +132,25 @@ def trail_weather(request, slug: str):
         return forecast(trail.start_point.y, trail.start_point.x)
     except httpx.HTTPError:
         raise HttpError(502, "Аба ырайы кызматы азыр жеткиликсиз")
+
+
+@router.get("/trails/{slug}/directions", response=Directions)
+def trail_directions(
+    request, slug: str, from_lat: float | None = None, from_lng: float | None = None
+):
+    """Driving route to the trailhead — from Bishkek, or from the given point."""
+    trail = get_object_or_404(Trail, slug=slug, is_published=True)
+    origin = directions_service.BISHKEK
+    if from_lat is not None and from_lng is not None:
+        if not (-90 <= from_lat <= 90 and -180 <= from_lng <= 180):
+            raise HttpError(422, "Координаталар туура эмес")
+        origin = (from_lng, from_lat)
+    try:
+        return directions_service.directions((trail.start_point.x, trail.start_point.y), origin)
+    except directions_service.NoRoute:
+        raise HttpError(404, "Бул жерге унаа жолу табылган жок")
+    except httpx.HTTPError:
+        raise HttpError(502, "Жол көрсөтүү кызматы азыр жеткиликсиз")
 
 
 @router.post("/trails/{slug}/gpx", response=TrailDetail, auth=token_auth)

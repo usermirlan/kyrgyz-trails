@@ -9,6 +9,8 @@ from django.core.cache import cache
 from django.core.management import call_command
 from django.test import Client
 
+from trails.models import Trail
+
 SAMPLE_GPX = Path(__file__).parent / "data" / "sample.gpx"
 pytestmark = pytest.mark.django_db
 
@@ -304,3 +306,44 @@ def test_trail_not_found_falls_back_to_straight(client, fake_elevations):
         )
     assert r.status_code == 200
     assert r.json()["straight_legs"] == 2
+
+
+# ---- directions -------------------------------------------------------------
+
+def _fake_route(origin, dest):
+    return {
+        "distance": 40000,
+        "duration": 2700,
+        "geometry": {"coordinates": [list(origin), list(dest)]},
+        "legs": [{"steps": [
+            {"maneuver": {"type": "depart"}, "name": "A", "distance": 100},
+            {"maneuver": {"type": "arrive"}, "name": "", "distance": 0},
+        ]}],
+    }
+
+
+def test_trail_directions_default_from_bishkek(client):
+    trail = Trail.objects.get(slug="ala-archa-ratsek")
+    with mock.patch("trails.services.directions.fetch_route", side_effect=_fake_route) as m:
+        r = client.get(f"/api/trails/{trail.slug}/directions")
+    assert r.status_code == 200, r.content
+    d = r.json()
+    assert d["distance_km"] == 40.0 and d["duration_min"] == 45
+    assert d["origin"] == [74.6037, 42.8766]
+    assert m.call_args.args[1] == (trail.start_point.x, trail.start_point.y)
+
+
+def test_trail_directions_from_user_location(client):
+    trail = Trail.objects.get(slug="ala-archa-ratsek")
+    with mock.patch("trails.services.directions.fetch_route", side_effect=_fake_route):
+        r = client.get(f"/api/trails/{trail.slug}/directions?from_lat=42.49&from_lng=78.39")
+    assert r.json()["origin"] == [78.39, 42.49]
+
+
+def test_trail_directions_service_down(client):
+    trail = Trail.objects.get(slug="ala-archa-ratsek")
+    import httpx
+
+    with mock.patch("trails.services.directions.fetch_route", side_effect=httpx.ConnectError("x")):
+        r = client.get(f"/api/trails/{trail.slug}/directions")
+    assert r.status_code == 502

@@ -163,3 +163,22 @@ export type UserRoute = {
 };
 
 export const getMyRoutes = (token: string) => api<UserRoute[]>("/me/routes", { token });
+
+// ---- driving directions ----------------------------------------------------
+
+export type DirectionStep = {
+  type: string;
+  modifier: string;
+  name: string;
+  exit: number | null;
+  distance_m: number;
+};
+
+export type Directions = {
+  distance_km: number;
+  duration_min: number;
+  geometry: LngLat[];
+  steps: DirectionStep[];
+  origin: LngLat;
+  destination: LngLat;
+};

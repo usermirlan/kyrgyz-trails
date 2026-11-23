@@ -3,7 +3,7 @@
 import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { api, ApiError, type LngLat, type PlanResult, type RouteStats, type User, type UserRoute } from "@/lib/api";
+import { api, ApiError, type Directions, type LngLat, type PlanResult, type RouteStats, type User, type UserRoute } from "@/lib/api";
 import { isLang } from "@/lib/i18n";
 import { getLang, getToken, LANG_COOKIE, TOKEN_COOKIE } from "@/lib/session";
 
@@ -176,4 +176,18 @@ export async function deleteRoute(id: number) {
     await api(`/me/routes/${id}`, { method: "DELETE", token });
   } catch {}
   revalidatePath("/builder");
+}
+
+// ---- driving directions ----------------------------------------------------
+
+export async function getDirections(
+  slug: string,
+  from?: { lat: number; lng: number },
+): Promise<{ directions?: Directions; error?: string }> {
+  const q = from ? `?from_lat=${from.lat}&from_lng=${from.lng}` : "";
+  try {
+    return { directions: await api<Directions>(`/trails/${encodeURIComponent(slug)}/directions${q}`) };
+  } catch (e) {
+    return { error: message(e) };
+  }
 }

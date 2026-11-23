@@ -119,3 +119,24 @@ class UserRouteOut(Schema):
     max_elevation_m: int
     duration_h: float
     created_at: datetime
+
+
+# ---- driving directions to the trailhead ----------------------------------
+
+class DirectionStep(Schema):
+    # OSRM maneuver: depart, turn, merge, fork, roundabout, arrive, ...
+    type: str
+    # left, right, slight left, sharp right, straight, uturn, ...
+    modifier: str
+    name: str
+    exit: int | None = None
+    distance_m: int
+
+
+class Directions(Schema):
+    distance_km: float
+    duration_min: int
+    geometry: list[list[float]]
+    steps: list[DirectionStep]
+    origin: list[float]
+    destination: list[float]
