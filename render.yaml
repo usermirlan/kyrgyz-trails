@@ -1,0 +1,31 @@
+# Render Blueprint for the backend (Dashboard → New → Blueprint → this repo).
+# The database lives on Neon (free plan does not expire); the frontend on Vercel.
+services:
+  - type: web
+    name: too-arna-api
+    runtime: docker
+    rootDir: backend
+    plan: free
+    region: frankfurt
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: DJANGO_DEBUG
+        value: "0"
+      - key: DJANGO_SECRET_KEY
+        generateValue: true
+      # Neon connection string (Dashboard → Connect), e.g. postgresql://…?sslmode=require
+      - key: DATABASE_URL
+        sync: false
+      - key: LLM_API_KEY
+        sync: false
+      - key: LLM_BASE_URL
+        value: https://api.groq.com/openai/v1
+      - key: LLM_MODEL
+        value: openai/gpt-oss-120b
+      # 512 MB free instance: two gunicorn workers fit comfortably
+      - key: WEB_CONCURRENCY
+        value: "2"
+      # set to your Vercel URL once you have it, e.g. https://too-arna.vercel.app
+      - key: CORS_ALLOWED_ORIGINS
+        sync: false

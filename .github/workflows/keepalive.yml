@@ -1,0 +1,16 @@
+# Render's free web service sleeps after 15 idle minutes and takes ~1 minute to wake.
+# Pinging the DB-free health endpoint keeps it warm (one service fits in the 750 free
+# hours a month). Set the repository variable BACKEND_URL to enable it.
+name: keep-alive
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+
+jobs:
+  ping:
+    if: ${{ vars.BACKEND_URL != '' }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: curl -fsS --max-time 90 "${{ vars.BACKEND_URL }}/api/health"

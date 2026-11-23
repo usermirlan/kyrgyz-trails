@@ -6,6 +6,9 @@ set -e
 echo "Waiting for database..."
 until python - <<'PY' 2>/dev/null
 import os, psycopg
+if os.environ.get("DATABASE_URL"):  # hosted Postgres such as Neon
+    psycopg.connect(os.environ["DATABASE_URL"], connect_timeout=5).close()
+    raise SystemExit
 psycopg.connect(
     host=os.environ.get("POSTGRES_HOST", "localhost"),
     port=os.environ.get("POSTGRES_PORT", "5432"),

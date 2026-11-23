@@ -127,9 +127,19 @@ frontend/
 - **Тышкы акысыз API'лерди үнөмдөө:** Open-Meteo бийиктик лимитин координат саны боюнча эсептейт, ошондуктан бийиктик ар бир чекит үчүн өзүнчө, BRouter жолу ар бир бөлүк үчүн өзүнчө кэштелет. Жаңы чекит кошулганда жаңы бөлүк гана суралат.
 - **Унаа нускамасы маалымат катары кайтарылат** (`type`, `modifier`, көчөнүн аты), ал эми текст frontend'де колдонуучунун тилинде түзүлөт.
 
-## Production
+## Production (бекер)
 
-`.env`'ге `DJANGO_DEBUG=0`, `DJANGO_SECRET_KEY`, `DJANGO_ALLOWED_HOSTS`, `CORS_ALLOWED_ORIGINS`, `CSRF_TRUSTED_ORIGINS` коюңуз. Ошондо backend gunicorn жана whitenoise менен иштейт. Ылайыктуу акысыз же арзан варианттар: frontend үчүн **Vercel**, backend үчүн **Railway/Fly.io** (Dockerfile даяр), база үчүн **Neon** же Railway Postgres (PostGIS кеңейтүүсү менен).
+| Бөлүк | Кызмат | Эмне үчүн |
+|---|---|---|
+| База | **Neon** (Франкфурт) | Бекер планы мөөнөтсүз, PostGIS бар. Render'дин бекер базасы 30 күндөн кийин өчөт |
+| Backend | **Render** web service (Docker, Франкфурт) | `render.yaml` Blueprint даяр; `/api/health` — базага тийбеген health check |
+| Frontend | **Vercel** (`frontend/` папкасы, `fra1` аймагы) | Next.js үчүн эң ылайыктуу |
+
+1. Neon'до долбоор ачып, туташуу дарегин көчүрүңүз (`postgresql://…?sslmode=require`).
+2. Render → **New → Blueprint** → бул репо. `DATABASE_URL` жана `LLM_API_KEY` маанилерин киргизиңиз. Backend биринчи ачылганда миграцияларды иштетип, маршруттарды жана тректерди өзү жүктөйт.
+3. Vercel → **Add New → Project** → бул репо, Root Directory: `frontend`, `API_URL` = Render'дин дареги.
+4. Render'де `CORS_ALLOWED_ORIGINS` = Vercel'дин дареги.
+5. (Милдеттүү эмес) GitHub → Settings → Variables → `BACKEND_URL` = Render'дин дареги: `keepalive.yml` backend'ди ар 10 мүнөттө "ойготуп" турат, ошондо биринчи кирүү 1 мүнөт күтпөйт.
 
 ## ⚠️ Маалыматтар тууралуу
 

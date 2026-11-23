@@ -357,3 +357,16 @@ def test_seeded_trails_have_tracks(client):
     assert d["elevation_profile"][-1][1] > d["elevation_profile"][0][1]  # it climbs
     # curated stats from trails.json are kept, not replaced by the track's
     assert d["distance_km"] == 16.0
+
+
+def test_health_does_not_need_the_database(client, django_assert_num_queries):
+    with django_assert_num_queries(0):
+        assert client.get("/api/health").json() == {"ok": True}
+
+
+def test_database_url_parsing():
+    from config.settings import database_from_url
+
+    d = database_from_url("postgresql://u:p%40ss@ep-x.neon.tech/neondb?sslmode=require")
+    assert (d["USER"], d["PASSWORD"], d["HOST"], d["PORT"], d["NAME"]) == ("u", "p@ss", "ep-x.neon.tech", "5432", "neondb")
+    assert d["OPTIONS"] == {"sslmode": "require"}

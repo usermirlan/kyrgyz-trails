@@ -78,6 +78,10 @@ External services (LLM, Open-Meteo, BRouter, OSRM) are mocked in tests. CI runs 
 - **Ratings are computed with a subquery** (not a JOIN), so text search does not skew the average.
 - **GPX and route maths are plain Python**, decoupled from Django and tested without a database.
 
+## Deploy (free)
+
+Database on **Neon** (free plan never expires, PostGIS included), backend on **Render** (`render.yaml` Blueprint, Docker, health check at `/api/health` that never touches the DB), frontend on **Vercel** (root directory `frontend`, region `fra1`, `API_URL` = the Render URL). Set the repository variable `BACKEND_URL` to let `keepalive.yml` stop Render's free instance from sleeping.
+
 ## Data note
 
 Seed coordinates, distances and elevations are **approximate**. Verify each trail against a real GPX track before publishing.

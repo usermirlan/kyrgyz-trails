@@ -168,6 +168,12 @@ def upload_gpx(request, slug: str, file: UploadedFile = File(...), update_stats:
     return serialize(get_object_or_404(base_queryset(), slug=slug), "ru", detail=True)
 
 
+@router.get("/health", tags=["meta"])
+def health(request):
+    """Liveness for the host's health check and keep-alive pings; never touches the DB."""
+    return {"ok": True}
+
+
 @router.get("/meta", response=Meta, tags=["meta"])
 def meta(request):
     return {

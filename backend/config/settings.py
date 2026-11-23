@@ -1,11 +1,15 @@
 import os
 from pathlib import Path
+from urllib.parse import parse_qsl, unquote, urlsplit
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "dev-only-change-me")
 DEBUG = os.environ.get("DJANGO_DEBUG", "1") == "1"
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1,backend").split(",")
+# Render tells the service its public hostname
+if render_host := os.environ.get("RENDER_EXTERNAL_HOSTNAME"):
+    ALLOWED_HOSTS.append(render_host)
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -51,8 +55,25 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "config.wsgi.application"
 
+def database_from_url(url: str) -> dict:
+    """postgres://user:pass@host:port/db?sslmode=require → Django settings (e.g. Neon)."""
+    u = urlsplit(url)
+    return {
+        "ENGINE": "django.contrib.gis.db.backends.postgis",
+        "NAME": unquote(u.path.lstrip("/")),
+        "USER": unquote(u.username or ""),
+        "PASSWORD": unquote(u.password or ""),
+        "HOST": u.hostname or "",
+        "PORT": str(u.port or 5432),
+        # query parameters such as sslmode / channel_binding go to libpq as-is
+        "OPTIONS": dict(parse_qsl(u.query)),
+    }
+
+
 DATABASES = {
-    "default": {
+    "default": database_from_url(os.environ["DATABASE_URL"])
+    if os.environ.get("DATABASE_URL")
+    else {
         "ENGINE": "django.contrib.gis.db.backends.postgis",
         "NAME": os.environ.get("POSTGRES_DB", "tooarna"),
         "USER": os.environ.get("POSTGRES_USER", "tooarna"),
