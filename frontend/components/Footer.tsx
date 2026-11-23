@@ -48,7 +48,7 @@ async function WeatherWidget({ t }: { t: Dict }) {
             <span className="text-lg text-muted"> / {Math.round(today.t_min ?? 0)}°</span>
           </span>
         </div>
-        <svg aria-hidden="true" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#8cc4ff" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+        <svg aria-hidden="true" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="text-sky" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
           <path d="M7 18h10a4 4 0 0 0 .6-8 6 6 0 0 0-11.5 1.5A3.3 3.3 0 0 0 7 18Z" />
         </svg>
       </div>
@@ -95,13 +95,13 @@ export default async function Footer() {
           <div className="self-start"><LangSwitcher current={lang} /></div>
           <div className="flex gap-2.5">
             <Social label="GitHub" href={REPO_URL}>
-              <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21" /></svg>
+              <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21" /></svg>
             </Social>
             <Social label="Instagram" href="https://instagram.com">
-              <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.8"><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r="0.8" fill="#fff" /></svg>
+              <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" /></svg>
             </Social>
             <Social label="Telegram" href="https://t.me">
-              <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.8" strokeLinejoin="round"><path d="M21 4 L3 11 L10 13.5 L12.5 20.5 L21 4 Z M10 13.5 L21 4" /></svg>
+              <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round"><path d="M21 4 L3 11 L10 13.5 L12.5 20.5 L21 4 Z M10 13.5 L21 4" /></svg>
             </Social>
           </div>
         </div>
@@ -144,7 +144,7 @@ export default async function Footer() {
           <span>© OpenStreetMap contributors · OpenFreeMap · Open-Meteo · {t.photoCredits}</span>
           <a href="#top" className="flex items-center gap-2 rounded-full border border-line px-4 py-2 font-bold text-white hover:bg-white/10">
             {t.backToTop}
-            <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 19 V5 M5 12 L12 5 L19 12" /></svg>
+            <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 19 V5 M5 12 L12 5 L19 12" /></svg>
           </a>
         </div>
       </div>

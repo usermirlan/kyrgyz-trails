@@ -18,7 +18,7 @@ export default async function BuilderPage() {
   return (
     <main className="mx-auto max-w-[1480px] px-6 py-8 md:px-8">
       <div className="mb-6 flex flex-col gap-2">
-        <span className="text-[13px] font-bold uppercase tracking-[0.16em] text-[#8cc4ff]">{t.builderEyebrow}</span>
+        <span className="text-[13px] font-bold uppercase tracking-[0.16em] text-sky">{t.builderEyebrow}</span>
         <h1 className="font-display text-4xl font-semibold tracking-[-0.02em] md:text-5xl">{t.builderTitle}</h1>
         <p className="max-w-2xl text-lg text-muted">{t.builderLead}</p>
       </div>

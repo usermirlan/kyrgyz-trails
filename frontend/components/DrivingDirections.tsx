@@ -2,12 +2,11 @@
 
 import { useEffect, useRef, useState } from "react";
 import type { GeoJSONSource, Map as MLMap } from "maplibre-gl";
-import { collapseAttribution } from "@/lib/map";
+import { collapseAttribution, currentTheme, followTheme, mapStyle } from "@/lib/map";
 import { getDirections } from "@/app/actions";
 import type { DirectionStep, Directions } from "@/lib/api";
 import type { Dict } from "@/lib/i18n";
 
-const STYLE = "https://tiles.openfreemap.org/styles/dark";
 
 type Origin = "bishkek" | "me";
 
@@ -58,7 +57,7 @@ export default function DrivingDirections({ slug, t }: { slug: string; t: Dict }
   const [data, setData] = useState<Directions | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-  const [mapReady, setMapReady] = useState(false);
+  const [styleVersion, setStyleVersion] = useState(0);
 
   // fetch the route whenever the origin changes
   useEffect(() => {
@@ -84,17 +83,18 @@ export default function DrivingDirections({ slug, t }: { slug: string; t: Dict }
       if (cancelled || !container.current) return;
       const map = new maplibregl.Map({
         container: container.current,
-        style: STYLE,
+        style: mapStyle(),
         center: [74.6, 42.7],
         zoom: 8,
         attributionControl: { compact: true },
       });
       map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
       mapRef.current = map;
-      map.on("load", () => {
-        collapseAttribution(map);
+      collapseAttribution(map);
+      followTheme(map, () => {
+        const ink = currentTheme() === "light" ? "#ffffff" : "#07090d";
         map.addSource("drive", { type: "geojson", data: { type: "FeatureCollection", features: [] }, attribution: "Routing: OSRM / FOSSGIS" });
-        map.addLayer({ id: "drive-casing", type: "line", source: "drive", layout: { "line-join": "round", "line-cap": "round" }, paint: { "line-color": "#07090d", "line-width": 8 } });
+        map.addLayer({ id: "drive-casing", type: "line", source: "drive", layout: { "line-join": "round", "line-cap": "round" }, paint: { "line-color": ink, "line-width": 8 } });
         map.addLayer({ id: "drive", type: "line", source: "drive", layout: { "line-join": "round", "line-cap": "round" }, paint: { "line-color": "#4c9be8", "line-width": 5 } });
         map.addSource("ends", { type: "geojson", data: { type: "FeatureCollection", features: [] } });
         map.addLayer({
@@ -103,12 +103,12 @@ export default function DrivingDirections({ slug, t }: { slug: string; t: Dict }
           source: "ends",
           paint: {
             "circle-radius": 8,
-            "circle-color": ["match", ["get", "role"], "start", "#e8eef7", "#5fbf8f"],
-            "circle-stroke-color": "#07090d",
+            "circle-color": ["match", ["get", "role"], "start", currentTheme() === "light" ? "#0f1726" : "#e8eef7", "#5fbf8f"],
+            "circle-stroke-color": ink,
             "circle-stroke-width": 3,
           },
         });
-        setMapReady(true);
+        setStyleVersion((v) => v + 1);
       });
     })();
     return () => {
@@ -121,7 +121,7 @@ export default function DrivingDirections({ slug, t }: { slug: string; t: Dict }
   // draw the route
   useEffect(() => {
     const map = mapRef.current;
-    if (!mapReady || !map || !data) return;
+    if (!styleVersion || !map || !data) return;
     (map.getSource("drive") as GeoJSONSource).setData({
       type: "Feature",
       properties: {},
@@ -140,7 +140,7 @@ export default function DrivingDirections({ slug, t }: { slug: string; t: Dict }
       data.geometry.forEach((c) => b.extend(c));
       map.fitBounds(b, { padding: 40, duration: 600 });
     })();
-  }, [data, mapReady]);
+  }, [data, styleVersion]);
 
   function locateMe() {
     if (!navigator.geolocation) {

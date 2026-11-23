@@ -1,11 +1,12 @@
 /* Too Arna service worker — offline pages + map tiles for the mountains (no signal up there). */
-const VERSION = "v2";
+const VERSION = "v3";
 const PAGES = `pages-${VERSION}`;
 const STATIC = `static-${VERSION}`;
 const TILES = `tiles-${VERSION}`;
 const OFFLINE_URL = "/offline";
 const MAP_HOST = "tiles.openfreemap.org";
-const STYLE_URL = `https://${MAP_HOST}/styles/dark`;
+// one style per site theme; both read the same vector tiles
+const STYLE_URLS = [`https://${MAP_HOST}/styles/dark`, `https://${MAP_HOST}/styles/positron`];
 const MAX_TILES = 600;
 
 self.addEventListener("install", (event) => {
@@ -80,7 +81,9 @@ async function saveTrail({ pageUrl, bbox }) {
   await pages.add(pageUrl);
 
   const tiles = await caches.open(TILES);
-  const style = await (await cacheFirst(TILES, new Request(STYLE_URL))).clone().json();
+  const [style] = await Promise.all(
+    STYLE_URLS.map(async (u) => (await cacheFirst(TILES, new Request(u))).clone().json()),
+  );
   const vector = Object.values(style.sources).find((s) => s.type === "vector" && s.url);
   const tilejson = await (await cacheFirst(TILES, new Request(vector.url))).clone().json();
   const urls = tileUrls(tilejson.tiles[0], bbox);

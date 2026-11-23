@@ -16,9 +16,10 @@ A full-stack platform for hiking in Kyrgyzstan: an interactive trail catalog wit
 | ✏️ **Route builder** | Click the map to draw a route. In **follow-trails** mode every leg is routed along OpenStreetMap paths with [BRouter](https://brouter.de) (`hiking-mountain` profile); legs with no trail nearby fall back to a straight line and the UI says so. Distance, ascent/descent (with DEM noise smoothing), walking time and an elevation profile update live. Export to GPX, save to your account |
 | 🚗 **Getting there** | Car route from Bishkek or from the user's location to the trailhead via [OSRM](https://project-osrm.org): map, distance, drive time, turn-by-turn steps in 3 languages, and one-tap **Open in 2GIS / Google Maps** for real navigation |
 | ✨ **AI planner** | A tool-calling LLM agent (`search_trails`, `get_trail_details`, `get_weather_forecast`) that plans trips from the **real database only** and never invents trails. Works with any OpenAI-compatible API (Groq, Gemini, Ollama…) |
-| 📈 **GPX** | Upload a GPX file in the admin or via API: route, distance, elevation gain (hysteresis filter) and elevation profile are computed automatically |
+| 📈 **GPX** | All 10 trails ship with a track and elevation profile: the `build_tracks` command routes each trail's waypoints along OSM paths with BRouter and writes GPX fixtures that `seed_trails` loads. You can also upload a GPX file in the admin or via API: route, distance, elevation gain (hysteresis filter) and elevation profile are computed automatically |
 | 🌦️ **Weather** | 7-day Open-Meteo forecast for each trailhead, cached |
 | ⭐ **Community** | Sign-up / login (bearer token in an httpOnly cookie), reviews (one per user), favorites |
+| 🌗 **Two themes** | Dark ("cinema") and light, switched instantly with one button and remembered in a cookie (rendered on the server, so no flash). Maps switch style too |
 | 🌐 **3 languages** | Kyrgyz, Russian, English for both UI and trail content |
 | 📴 **Offline (PWA)** | A service worker caches a trail page and the surrounding map tiles (z8–14), because there is no signal in the mountains |
 

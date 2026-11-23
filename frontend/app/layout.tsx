@@ -3,7 +3,7 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import OfflineBanner from "@/components/OfflineBanner";
 import ServiceWorker from "@/components/ServiceWorker";
-import { getDict, getLang } from "@/lib/session";
+import { getDict, getLang, getTheme } from "@/lib/session";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -14,12 +14,15 @@ export const metadata: Metadata = {
   icons: { icon: "/icon.svg", apple: "/icon.svg" },
 };
 
-export const viewport: Viewport = { themeColor: "#07090d" };
+export async function generateViewport(): Promise<Viewport> {
+  return { themeColor: (await getTheme()) === "light" ? "#f3f5f8" : "#07090d" };
+}
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const [lang, t] = await Promise.all([getLang(), getDict()]);
+  const [lang, t, theme] = await Promise.all([getLang(), getDict(), getTheme()]);
   return (
-    <html lang={lang} id="top">
+    // the theme is rendered on the server from a cookie, so there is no flash on load
+    <html lang={lang} id="top" data-theme={theme}>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />

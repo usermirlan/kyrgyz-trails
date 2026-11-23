@@ -22,12 +22,12 @@ export default function PlannerForm({ t }: { t: Dict }) {
           rows={3}
           defaultValue={state.prompt}
           placeholder={t.plannerPlaceholder}
-          className="w-full rounded-2xl border border-stone/15 bg-panel p-4 outline-none focus:border-sky"
+          className="w-full rounded-2xl border border-line bg-ink p-4 text-base outline-none focus:border-sky"
         />
         <div className="flex flex-wrap items-center gap-2">
           <button
             disabled={pending}
-            className="rounded-xl bg-white px-5 py-2.5 font-medium text-ink disabled:opacity-50"
+            className="rounded-full bg-white px-6 py-2.5 font-bold text-ink disabled:opacity-50"
           >
             {pending ? t.planning : t.plan}
           </button>
@@ -38,7 +38,7 @@ export default function PlannerForm({ t }: { t: Dict }) {
               onClick={() => {
                 if (textarea.current) textarea.current.value = ex;
               }}
-              className="rounded-full border border-stone/15 bg-panel px-3 py-1.5 text-xs text-stone/70 hover:border-sky"
+              className="rounded-full border border-line bg-ink px-3 py-1.5 text-xs text-muted hover:border-sky hover:text-stone"
             >
               {ex}
             </button>
@@ -61,7 +61,7 @@ export default function PlannerForm({ t }: { t: Dict }) {
       )}
 
       {!pending && state.result && (
-        <article className="rounded-2xl border border-stone/10 bg-panel p-6">
+        <article className="rounded-3xl border border-line bg-ink p-6">
           <div className="prose-plan">
             <ReactMarkdown
               components={{

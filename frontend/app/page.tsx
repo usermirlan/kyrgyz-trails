@@ -15,7 +15,7 @@ function Hero({ t }: { t: Dict }) {
   const field = "flex flex-col gap-1 rounded-2xl bg-ink/50 px-4 py-2.5";
   const select = "bg-transparent text-base font-semibold text-white outline-none [&>option]:bg-ink";
   return (
-    <section className="relative isolate -mt-[66px] flex min-h-[860px] flex-col overflow-hidden pt-[66px]">
+    <section className="on-photo relative isolate -mt-[66px] flex min-h-[860px] flex-col overflow-hidden pt-[66px]">
       <div aria-hidden className="photo-hero absolute inset-0 -z-10" />
       <div className="mx-auto flex w-full max-w-[1320px] flex-1 flex-col justify-between gap-12 px-6 pb-14 pt-16 md:px-8">
         <div className="flex flex-col gap-4">
@@ -91,7 +91,7 @@ function Ticker() {
 }
 
 function Bento({ t }: { t: Dict }) {
-  const card = "photo-card relative isolate flex flex-col justify-end gap-2 overflow-hidden rounded-[28px] p-6 [&>*]:relative";
+  const card = "on-photo photo-card relative isolate flex flex-col justify-end gap-2 overflow-hidden rounded-[28px] p-6 [&>*]:relative";
   return (
     <section className="mx-auto max-w-[1320px] px-6 pb-12 pt-24 md:px-8">
       <div className="mb-10 flex flex-wrap items-end justify-between gap-6">
@@ -116,7 +116,7 @@ function Bento({ t }: { t: Dict }) {
           <svg aria-hidden="true" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 20 L9 8 L13 14 L16 10 L21 20 Z" /></svg>
           <span className="flex flex-col gap-1.5">
             <span className="font-display text-2xl font-semibold">{t.catDay}</span>
-            <span className="text-sm text-[#0b1a2c]">{t.catDaySub}</span>
+            <span className="text-sm text-ink/80">{t.catDaySub}</span>
           </span>
         </Link>
       </div>
@@ -146,13 +146,13 @@ function AiCta({ t }: { t: Dict }) {
     <section className="mx-auto max-w-[1320px] px-6 pb-6 md:px-8">
       <div className="glow flex flex-wrap items-center gap-12 rounded-[36px] border border-line p-8 md:p-16">
         <div className="flex flex-[1_1_440px] flex-col gap-4">
-          <span className="text-[13px] font-bold uppercase tracking-[0.16em] text-[#8cc4ff]">{t.aiEyebrow}</span>
+          <span className="text-[13px] font-bold uppercase tracking-[0.16em] text-sky">{t.aiEyebrow}</span>
           <h2 className="font-display text-4xl font-semibold leading-[1.02] tracking-[-0.02em] md:text-[52px]">
             {t.aiTitle1}
             <br />
             {t.aiTitle2}
           </h2>
-          <p className="max-w-lg text-lg leading-relaxed text-[#b9c5d4]">{t.aiText}</p>
+          <p className="max-w-lg text-lg leading-relaxed text-muted">{t.aiText}</p>
           <Link href="/planner" className="mt-1 self-start rounded-full bg-white px-6 py-4 font-bold text-ink">{t.aiButton}</Link>
         </div>
         <div className="flex flex-[1_1_400px] flex-col gap-3.5 rounded-3xl border border-line bg-ink p-6">
@@ -164,10 +164,10 @@ function AiCta({ t }: { t: Dict }) {
           </div>
           <Link href="/trails/ala-kul-trek" className="flex gap-3.5 rounded-[20px_20px_20px_6px] border border-line bg-panel p-3.5">
             <span className="photo-card photo-lake h-24 w-24 shrink-0 rounded-2xl" />
-            <span className="flex flex-col gap-1.5 text-[15px] leading-normal text-[#c9d4e2]">
+            <span className="flex flex-col gap-1.5 text-[15px] leading-normal text-stone/85">
               <strong className="font-display text-lg font-semibold text-white">Ала-Көл</strong>
               <span>3 {t.daysLong} · 55 {t.km} · ↑ 3 900 {t.m}</span>
-              <span className="text-[#8cc4ff]">{t.aiDemoRoute}</span>
+              <span className="text-sky">{t.aiDemoRoute}</span>
             </span>
           </Link>
         </div>
@@ -179,7 +179,7 @@ function AiCta({ t }: { t: Dict }) {
 function PreFooter({ t }: { t: Dict }) {
   return (
     <section className="mx-auto max-w-[1320px] px-6 pt-6 md:px-8">
-      <div className="photo-cta flex min-h-[320px] flex-wrap items-end justify-between gap-8 rounded-[36px] px-8 py-16 md:px-16 md:py-20">
+      <div className="on-photo photo-cta flex min-h-[320px] flex-wrap items-end justify-between gap-8 rounded-[36px] px-8 py-16 md:px-16 md:py-20">
         <div className="flex max-w-3xl flex-col gap-3.5">
           <span className="text-[13px] font-bold uppercase tracking-[0.2em] text-stone/90">{t.preEyebrow}</span>
           <h2 className="font-display text-5xl font-extrabold leading-[0.95] tracking-[-0.02em] md:text-[72px]">

@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import type { Map as MLMap } from "maplibre-gl";
-import { collapseAttribution } from "@/lib/map";
+import { collapseAttribution, followTheme, mapStyle } from "@/lib/map";
 
 type MapPoint = { slug: string; title: string; lat: number; lng: number; difficulty: string };
 
@@ -10,11 +10,9 @@ const COLORS: Record<string, string> = {
   easy: "#5fbf8f",
   moderate: "#4c9be8",
   hard: "#f08a5d",
-  expert: "#e8eef7",
+  expert: "#a78bfa",
 };
 
-// Free vector tiles, no API key: https://openfreemap.org (dark style to match the site)
-const STYLE = "https://tiles.openfreemap.org/styles/dark";
 
 export default function TrailMap({
   points,
@@ -37,7 +35,7 @@ export default function TrailMap({
 
       const map = new maplibregl.Map({
         container: container.current,
-        style: STYLE,
+        style: mapStyle(),
         center: [75.0, 41.8], // Kyrgyzstan
         zoom: 5.5,
         attributionControl: { compact: true },
@@ -58,8 +56,15 @@ export default function TrailMap({
         bounds.extend([p.lng, p.lat]);
       }
 
-      map.on("load", () => {
-        collapseAttribution(map);
+      collapseAttribution(map);
+      route?.forEach((c) => bounds.extend(c));
+      map.once("load", () => {
+        if (!bounds.isEmpty()) {
+          map.fitBounds(bounds, { padding: 60, maxZoom: route?.length ? 13 : points.length === 1 ? 11 : 9, duration: 0 });
+        }
+      });
+      // (re)draw the track for the first style and after each theme switch
+      followTheme(map, () => {
         if (route?.length) {
           map.addSource("route", {
             type: "geojson",
@@ -69,12 +74,9 @@ export default function TrailMap({
             id: "route",
             type: "line",
             source: "route",
-            paint: { "line-color": "#c8553d", "line-width": 4 },
+            layout: { "line-join": "round", "line-cap": "round" },
+            paint: { "line-color": "#f08a5d", "line-width": 4 },
           });
-          route.forEach((c) => bounds.extend(c));
-        }
-        if (!bounds.isEmpty()) {
-          map.fitBounds(bounds, { padding: 60, maxZoom: points.length === 1 ? 11 : 9, duration: 0 });
         }
       });
     })();

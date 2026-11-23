@@ -9,6 +9,8 @@ export function isLang(v: unknown): v is Lang {
 const ky = {
   navTrails: "Маршруттар",
   navBuilder: "Маршрут түзүү",
+  toLight: "Ачык темага өтүү",
+  toDark: "Караңгы темага өтүү",
   menu: "Меню",
   followTrails: "🥾 Жол менен",
   straightLine: "📏 Түз сызык",
@@ -194,6 +196,8 @@ export type Dict = typeof ky;
 const ru: Dict = {
   navTrails: "Маршруты",
   navBuilder: "Создать маршрут",
+  toLight: "Светлая тема",
+  toDark: "Тёмная тема",
   menu: "Меню",
   followTrails: "🥾 По тропам",
   straightLine: "📏 По прямой",
@@ -377,6 +381,8 @@ const ru: Dict = {
 const en: Dict = {
   navTrails: "Trails",
   navBuilder: "Route builder",
+  toLight: "Switch to light theme",
+  toDark: "Switch to dark theme",
   menu: "Menu",
   followTrails: "🥾 Follow trails",
   straightLine: "📏 Straight line",

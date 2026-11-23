@@ -1,11 +1,13 @@
 import Link from "next/link";
 import { logout } from "@/app/actions";
-import { getDict, getLang, getUser } from "@/lib/session";
+import { getDict, getLang, getTheme, getUser } from "@/lib/session";
 import LangSwitcher from "./LangSwitcher";
 import MobileMenu from "./MobileMenu";
+import ThemeToggle from "./ThemeToggle";
 
 export default async function Header() {
-  const [t, lang, user] = await Promise.all([getDict(), getLang(), getUser()]);
+  const [t, lang, user, theme] = await Promise.all([getDict(), getLang(), getUser(), getTheme()]);
+  const themeToggle = <ThemeToggle initial={theme} labels={{ toLight: t.toLight, toDark: t.toDark }} />;
   const link = "rounded-full px-4 py-2 text-[15px] font-semibold text-stone/90 hover:bg-white/10";
   const mlink = "block rounded-2xl px-4 py-3 text-lg font-semibold text-stone hover:bg-white/10";
 
@@ -46,10 +48,13 @@ export default async function Header() {
 
         <div className="hidden items-center gap-2 md:flex">
           <LangSwitcher current={lang} />
+          {themeToggle}
           {account}
         </div>
 
-        <MobileMenu label={t.menu}>
+        <div className="flex items-center gap-2 md:hidden">
+          {themeToggle}
+          <MobileMenu label={t.menu}>
           <nav className="flex flex-col gap-1">
             {links.map((l) => (
               <Link key={l.href} href={l.href} className={mlink}>{l.label}</Link>
@@ -59,7 +64,8 @@ export default async function Header() {
             <LangSwitcher current={lang} />
             {account}
           </div>
-        </MobileMenu>
+          </MobileMenu>
+        </div>
       </div>
     </header>
   );

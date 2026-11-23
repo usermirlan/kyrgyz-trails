@@ -2,14 +2,13 @@
 
 import { useEffect, useRef, useState, useTransition } from "react";
 import type { GeoJSONSource, Map as MLMap } from "maplibre-gl";
-import { collapseAttribution } from "@/lib/map";
+import { collapseAttribution, currentTheme, followTheme, mapStyle } from "@/lib/map";
 import Link from "next/link";
 import { analyzeRoute, deleteRoute, saveRoute } from "@/app/actions";
 import ElevationProfile from "@/components/ElevationProfile";
 import type { LngLat, RouteStats, UserRoute } from "@/lib/api";
 import type { Dict } from "@/lib/i18n";
 
-const STYLE = "https://tiles.openfreemap.org/styles/dark";
 const START: LngLat = [74.5, 42.6]; // Bishkek and the Ala-Archa gorge
 // Free terrain tiles (AWS Open Data, Terrarium encoding, no key) for hillshading
 const DEM_TILES = "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png";
@@ -76,7 +75,8 @@ export default function RouteBuilder({
   const [title, setTitle] = useState("");
   const [saveMsg, setSaveMsg] = useState<string | null>(null);
   const [saving, startSave] = useTransition();
-  const [ready, setReady] = useState(false);
+  // bumps each time the map style (re)loads, so the drawing effect repaints
+  const [styleVersion, setStyleVersion] = useState(0);
   const [followTrails, setFollowTrails] = useState(true);
 
   // Map: created once; clicks append a waypoint
@@ -87,7 +87,7 @@ export default function RouteBuilder({
       if (cancelled || !container.current) return;
       const map = new maplibregl.Map({
         container: container.current,
-        style: STYLE,
+        style: mapStyle(),
         center: START,
         zoom: 10,
         attributionControl: { compact: true },
@@ -96,8 +96,10 @@ export default function RouteBuilder({
       map.getCanvas().style.cursor = "crosshair";
       mapRef.current = map;
 
-      map.on("load", () => {
-        collapseAttribution(map);
+      collapseAttribution(map);
+      followTheme(map, () => {
+        const light = currentTheme() === "light";
+        const ink = light ? "#ffffff" : "#07090d";
         map.addSource("dem", {
           type: "raster-dem",
           tiles: [DEM_TILES],
@@ -114,10 +116,10 @@ export default function RouteBuilder({
             type: "hillshade",
             source: "dem",
             paint: {
-              "hillshade-exaggeration": 0.6,
-              "hillshade-shadow-color": "#000000",
-              "hillshade-highlight-color": "#5b6b80",
-              "hillshade-accent-color": "#1c2230",
+              "hillshade-exaggeration": light ? 0.45 : 0.6,
+              "hillshade-shadow-color": light ? "#4a5568" : "#000000",
+              "hillshade-highlight-color": light ? "#ffffff" : "#5b6b80",
+              "hillshade-accent-color": light ? "#b8c2d0" : "#1c2230",
             },
           },
           firstSymbol,
@@ -128,7 +130,7 @@ export default function RouteBuilder({
           id: "preview",
           type: "line",
           source: "preview",
-          paint: { "line-color": "#e8eef7", "line-width": 2, "line-opacity": 0.55, "line-dasharray": [2, 2] },
+          paint: { "line-color": light ? "#0f1726" : "#e8eef7", "line-width": 2, "line-opacity": 0.55, "line-dasharray": [2, 2] },
         });
         map.addSource("pts", { type: "geojson", data: pointsFC([]) });
         map.addLayer({
@@ -136,7 +138,7 @@ export default function RouteBuilder({
           type: "line",
           source: "line",
           layout: { "line-join": "round", "line-cap": "round" },
-          paint: { "line-color": "#07090d", "line-width": 7 },
+          paint: { "line-color": ink, "line-width": 7 },
         });
         map.addLayer({
           id: "line",
@@ -151,12 +153,12 @@ export default function RouteBuilder({
           source: "pts",
           paint: {
             "circle-radius": ["match", ["get", "role"], "mid", 5, 8],
-            "circle-color": ["match", ["get", "role"], "start", "#5fbf8f", "end", "#f08a5d", "#e8eef7"],
-            "circle-stroke-color": "#07090d",
+            "circle-color": ["match", ["get", "role"], "start", "#5fbf8f", "end", "#f08a5d", light ? "#0f1726" : "#e8eef7"],
+            "circle-stroke-color": ink,
             "circle-stroke-width": 2,
           },
         });
-        setReady(true);
+        setStyleVersion((v) => v + 1);
       });
       map.on("click", (e) => {
         setPoints((p) => (p.length >= 300 ? p : [...p, [+e.lngLat.lng.toFixed(6), +e.lngLat.lat.toFixed(6)]]));
@@ -169,18 +171,13 @@ export default function RouteBuilder({
     };
   }, []);
 
-  // Redraw + recalculate (debounced) whenever the waypoints change
+  // Recalculate (debounced) whenever the waypoints or the mode change
   useEffect(() => {
-    const map = mapRef.current;
-    const src = (id: string) => (ready ? (map?.getSource(id) as GeoJSONSource | undefined) : undefined);
-    src("pts")?.setData(pointsFC(points));
-    // dashed straight preview while the real path is being calculated
-    src("preview")?.setData(lineFC(points));
     setSaveMsg(null);
     if (points.length < 2) {
-      src("line")?.setData(lineFC([]));
       setStats(null);
       setError(null);
+      setLoading(false);
       return;
     }
     let stale = false;
@@ -190,17 +187,24 @@ export default function RouteBuilder({
       if (stale) return;
       setLoading(false);
       setError(r.error ?? null);
-      if (r.stats) {
-        setStats(r.stats);
-        src("line")?.setData(lineFC(r.stats.path.map(([lng, lat]) => [lng, lat] as LngLat)));
-        src("preview")?.setData(lineFC([]));
-      }
+      if (r.stats) setStats(r.stats);
     }, 450);
     return () => {
       stale = true;
       clearTimeout(id);
     };
-  }, [points, ready, followTrails]);
+  }, [points, followTrails]);
+
+  // Draw: waypoints, the calculated path, and a dashed straight preview while calculating
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!styleVersion || !map) return;
+    const src = (id: string) => map.getSource(id) as GeoJSONSource | undefined;
+    const routed = points.length > 1 && stats ? stats.path.map(([lng, lat]) => [lng, lat] as LngLat) : [];
+    src("pts")?.setData(pointsFC(points));
+    src("line")?.setData(lineFC(routed));
+    src("preview")?.setData(lineFC(points.length > 1 && (loading || !stats) ? points : []));
+  }, [points, stats, loading, styleVersion]);
 
   // Ctrl/Cmd+Z removes the last point
   useEffect(() => {

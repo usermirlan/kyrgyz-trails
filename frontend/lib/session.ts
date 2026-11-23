@@ -16,6 +16,14 @@ export const getLang = cache(async (): Promise<Lang> => {
   return isLang(v) ? v : DEFAULT_LANG;
 });
 
+export type Theme = "dark" | "light";
+export const THEME_COOKIE = "theme";
+
+/** Colour theme from the cookie set by ThemeToggle; dark is the default look. */
+export const getTheme = cache(async (): Promise<Theme> =>
+  (await cookies()).get(THEME_COOKIE)?.value === "light" ? "light" : "dark",
+);
+
 export async function getDict() {
   return DICTS[await getLang()];
 }
