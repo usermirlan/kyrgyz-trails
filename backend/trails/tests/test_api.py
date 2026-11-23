@@ -347,3 +347,13 @@ def test_trail_directions_service_down(client):
     with mock.patch("trails.services.directions.fetch_route", side_effect=httpx.ConnectError("x")):
         r = client.get(f"/api/trails/{trail.slug}/directions")
     assert r.status_code == 502
+
+
+def test_seeded_trails_have_tracks(client):
+    """seed_trails attaches the GPX fixtures built by `build_tracks`."""
+    d = client.get("/api/trails/ala-archa-ratsek").json()
+    assert d["route"] and len(d["route"]) > 100
+    assert len(d["elevation_profile"]) > 10
+    assert d["elevation_profile"][-1][1] > d["elevation_profile"][0][1]  # it climbs
+    # curated stats from trails.json are kept, not replaced by the track's
+    assert d["distance_km"] == 16.0

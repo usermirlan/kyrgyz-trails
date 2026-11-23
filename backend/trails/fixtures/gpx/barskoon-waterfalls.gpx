@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="Too Arna build_tracks (BRouter, OpenStreetMap)" xmlns="http://www.topografix.com/GPX/1/1">
+  <trk>
+    <name>Barskoon Waterfalls</name>
+    <trkseg>
+      <trkpt lat="42.045" lon="77.598"><ele>2189</ele></trkpt>
+      <trkpt lat="42.045036" lon="77.598963"><ele>2200</ele></trkpt>
+      <trkpt lat="42.044755" lon="77.598983"><ele>2201</ele></trkpt>
+      <trkpt lat="42.044435" lon="77.599109"><ele>2200</ele></trkpt>
+      <trkpt lat="42.042877" lon="77.599422"><ele>2198</ele></trkpt>
+      <trkpt lat="42.042703" lon="77.599602"><ele>2198</ele></trkpt>
+      <trkpt lat="42.042428" lon="77.599632"><ele>2198</ele></trkpt>
+      <trkpt lat="42.041366" lon="77.599851"><ele>2204</ele></trkpt>
+      <trkpt lat="42.04103" lon="77.600294"><ele>2206</ele></trkpt>
+      <trkpt lat="42.04031" lon="77.601303"><ele>2211</ele></trkpt>
+      <trkpt lat="42.040125" lon="77.601475"><ele>2212</ele></trkpt>
+      <trkpt lat="42.039718" lon="77.601684"><ele>2213</ele></trkpt>
+      <trkpt lat="42.039464" lon="77.601765"><ele>2213</ele></trkpt>
+      <trkpt lat="42.039123" lon="77.601781"><ele>2214</ele></trkpt>
+      <trkpt lat="42.038647" lon="77.601749"><ele>2213</ele></trkpt>
+      <trkpt lat="42.037859" lon="77.601713"><ele>2212</ele></trkpt>
+      <trkpt lat="42.037366" lon="77.602082"><ele>2210</ele></trkpt>
+      <trkpt lat="42.036674" lon="77.60266"><ele>2208</ele></trkpt>
+      <trkpt lat="42.03655" lon="77.602752"><ele>2208</ele></trkpt>
+      <trkpt lat="42.035506" lon="77.603625"><ele>2214</ele></trkpt>
+      <trkpt lat="42.034504" lon="77.604448"><ele>2214</ele></trkpt>
+      <trkpt lat="42.034288" lon="77.604646"><ele>2215</ele></trkpt>
+      <trkpt lat="42.033814" lon="77.605008"><ele>2218</ele></trkpt>
+      <trkpt lat="42.033458" lon="77.605238"><ele>2222</ele></trkpt>
+      <trkpt lat="42.033249" lon="77.605345"><ele>2223</ele></trkpt>
+      <trkpt lat="42.032043" lon="77.605674"><ele>2224</ele></trkpt>
+      <trkpt lat="42.03193" lon="77.605717"><ele>2224</ele></trkpt>
+      <trkpt lat="42.031327" lon="77.605802"><ele>2223</ele></trkpt>
+      <trkpt lat="42.030489" lon="77.605811"><ele>2226</ele></trkpt>
+      <trkpt lat="42.030033" lon="77.605866"><ele>2228</ele></trkpt>
+      <trkpt lat="42.029728" lon="77.60598"><ele>2230</ele></trkpt>
+      <trkpt lat="42.025" lon="77.6"><ele>2568</ele></trkpt>
+    </trkseg>
+  </trk>
+</gpx>
