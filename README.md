@@ -139,7 +139,8 @@ frontend/
 2. Render → **New → Blueprint** → бул репо. `DATABASE_URL` жана `LLM_API_KEY` маанилерин киргизиңиз. Backend биринчи ачылганда миграцияларды иштетип, маршруттарды жана тректерди өзү жүктөйт.
 3. Vercel → **Add New → Project** → бул репо, Root Directory: `frontend`, `API_URL` = Render'дин дареги.
 4. Render'де `CORS_ALLOWED_ORIGINS` = Vercel'дин дареги.
-5. (Милдеттүү эмес) GitHub → Settings → Variables → `BACKEND_URL` = Render'дин дареги: `keepalive.yml` backend'ди ар 10 мүнөттө "ойготуп" турат, ошондо биринчи кирүү 1 мүнөт күтпөйт.
+5. Админка (`https://<render-дарек>/admin`): Render'дин бекер планында Shell жок, ошондуктан `DJANGO_SUPERUSER_USERNAME`, `DJANGO_SUPERUSER_EMAIL`, `DJANGO_SUPERUSER_PASSWORD` өзгөрмөлөрүн коюңуз: backend ачылганда админ аккаунтун өзү түзөт.
+6. (Милдеттүү эмес) GitHub → Settings → Variables → `BACKEND_URL` = Render'дин дареги: `keepalive.yml` backend'ди ар 10 мүнөттө "ойготуп" турат, ошондо биринчи кирүү 1 мүнөт күтпөйт.
 
 ## ⚠️ Маалыматтар тууралуу
 

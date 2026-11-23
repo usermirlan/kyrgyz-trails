@@ -26,6 +26,13 @@ services:
       # 512 MB free instance: two gunicorn workers fit comfortably
       - key: WEB_CONCURRENCY
         value: "2"
+      # admin account for /admin, created on start (the site logs in by email)
+      - key: DJANGO_SUPERUSER_USERNAME
+        sync: false
+      - key: DJANGO_SUPERUSER_EMAIL
+        sync: false
+      - key: DJANGO_SUPERUSER_PASSWORD
+        sync: false
       # set to your Vercel URL once you have it, e.g. https://too-arna.vercel.app
       - key: CORS_ALLOWED_ORIGINS
         sync: false

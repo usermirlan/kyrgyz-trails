@@ -80,7 +80,7 @@ External services (LLM, Open-Meteo, BRouter, OSRM) are mocked in tests. CI runs 
 
 ## Deploy (free)
 
-Database on **Neon** (free plan never expires, PostGIS included), backend on **Render** (`render.yaml` Blueprint, Docker, health check at `/api/health` that never touches the DB), frontend on **Vercel** (root directory `frontend`, region `fra1`, `API_URL` = the Render URL). Set the repository variable `BACKEND_URL` to let `keepalive.yml` stop Render's free instance from sleeping.
+Database on **Neon** (free plan never expires, PostGIS included), backend on **Render** (`render.yaml` Blueprint, Docker, health check at `/api/health` that never touches the DB), frontend on **Vercel** (root directory `frontend`, region `fra1`, `API_URL` = the Render URL). For `/admin` on Render's free plan (no shell), set `DJANGO_SUPERUSER_USERNAME` / `_EMAIL` / `_PASSWORD` and the account is created on start. Set the repository variable `BACKEND_URL` to let `keepalive.yml` stop Render's free instance from sleeping.
 
 ## Data note
 

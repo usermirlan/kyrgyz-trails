@@ -26,6 +26,12 @@ echo "Database is ready."
 python manage.py migrate --noinput
 python manage.py seed_trails
 
+# Hosts without a shell (Render's free plan): create the admin account from env vars.
+# Django reads DJANGO_SUPERUSER_USERNAME / _EMAIL / _PASSWORD; an existing account is left alone.
+if [ -n "${DJANGO_SUPERUSER_PASSWORD:-}" ]; then
+    python manage.py createsuperuser --noinput 2>/dev/null && echo "Admin account created." || true
+fi
+
 if [ "${DJANGO_DEBUG:-1}" = "1" ]; then
     exec python manage.py runserver 0.0.0.0:8000
 else
