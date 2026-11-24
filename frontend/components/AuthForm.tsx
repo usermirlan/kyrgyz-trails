@@ -37,7 +37,7 @@ export default function AuthForm({ mode, next, t }: { mode: "login" | "register"
       <button disabled={pending} className="w-full rounded-xl bg-white py-2.5 font-medium text-ink disabled:opacity-50">
         {mode === "login" ? t.login : t.register}
       </button>
-      <p className="text-center text-sm text-stone/60">
+      <p className="text-center text-sm text-muted">
         {mode === "login" ? t.noAccount : t.haveAccount}{" "}
         <Link
           href={`/${mode === "login" ? "register" : "login"}?next=${encodeURIComponent(next)}`}

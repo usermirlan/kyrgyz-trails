@@ -36,3 +36,26 @@ export function collapseAttribution(map: MLMap) {
     map.getContainer().querySelector(".maplibregl-ctrl-attrib")?.classList.remove("maplibregl-compact-show");
   });
 }
+
+/**
+ * Run `init` once the element is about to scroll into view. MapLibre is a large
+ * bundle with heavy start-up work, so maps below the fold should not cost the
+ * first paint. Returns a cleanup function.
+ */
+export function whenNearViewport(el: Element, init: () => void, margin = "300px"): () => void {
+  if (typeof IntersectionObserver === "undefined") {
+    init();
+    return () => {};
+  }
+  const io = new IntersectionObserver(
+    (entries) => {
+      if (entries.some((e) => e.isIntersecting)) {
+        io.disconnect();
+        init();
+      }
+    },
+    { rootMargin: margin },
+  );
+  io.observe(el);
+  return () => io.disconnect();
+}

@@ -41,31 +41,32 @@ export default function Filters({ t }: { t: Dict }) {
           clearTimeout(debounce.current);
           debounce.current = setTimeout(() => update("q", v || null), 300);
         }}
+        aria-label={t.searchPlaceholder}
         className={`${field} w-56`}
       />
 
-      <select value={sp.get("region") ?? ""} onChange={(e) => update("region", e.target.value || null)} className={field}>
+      <select aria-label={t.where} value={sp.get("region") ?? ""} onChange={(e) => update("region", e.target.value || null)} className={field}>
         <option value="">{t.allRegions}</option>
         {Object.entries(t.regions).map(([v, label]) => (
           <option key={v} value={v}>{label}</option>
         ))}
       </select>
 
-      <select value={sp.get("month") ?? ""} onChange={(e) => update("month", e.target.value || null)} className={field}>
+      <select aria-label={t.when} value={sp.get("month") ?? ""} onChange={(e) => update("month", e.target.value || null)} className={field}>
         <option value="">{t.anyMonth}</option>
         {t.months.map((m, i) => (
           <option key={m} value={i + 1}>{m}</option>
         ))}
       </select>
 
-      <select value={sp.get("max_days") ?? ""} onChange={(e) => update("max_days", e.target.value || null)} className={field}>
+      <select aria-label={t.duration} value={sp.get("max_days") ?? ""} onChange={(e) => update("max_days", e.target.value || null)} className={field}>
         <option value="">{t.duration}</option>
         <option value="1">{t.day1}</option>
         <option value="2">{t.upTo2}</option>
         <option value="3">{t.upTo3}</option>
       </select>
 
-      <select value={sp.get("sort") ?? ""} onChange={(e) => update("sort", e.target.value || null)} className={field}>
+      <select aria-label={t.sortDefault} value={sp.get("sort") ?? ""} onChange={(e) => update("sort", e.target.value || null)} className={field}>
         <option value="">{t.sortDefault}</option>
         <option value="rating">{t.sortRating}</option>
         <option value="distance_km">{t.sortShort}</option>

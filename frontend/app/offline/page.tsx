@@ -9,7 +9,7 @@ export default function OfflinePage() {
       <p className="mt-3 text-stone/70">
         Бул барак офлайн сакталган эмес. Маршрутту алдын ала «Офлайн сактоо» баскычы менен сактап алыңыз.
       </p>
-      <p className="mt-2 text-sm text-stone/50">
+      <p className="mt-2 text-sm text-muted">
         This page wasn&apos;t saved for offline use. Use “Save offline” on a trail page before you lose signal.
       </p>
     </main>

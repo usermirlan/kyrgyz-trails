@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
 import Filters from "@/components/Filters";
@@ -16,6 +17,17 @@ function Hero({ t }: { t: Dict }) {
   const select = "bg-transparent text-base font-semibold text-white outline-none [&>option]:bg-ink";
   return (
     <section className="on-photo relative isolate -mt-[66px] flex min-h-[860px] flex-col overflow-hidden pt-[66px]">
+      {/* LCP image: preloaded, responsive AVIF/WebP via next/image */}
+      <Image
+        src="/images/hero.jpg"
+        alt=""
+        fill
+        priority
+        fetchPriority="high"
+        sizes="100vw"
+        quality={70}
+        className="-z-10 object-cover object-[center_40%]"
+      />
       <div aria-hidden className="photo-hero absolute inset-0 -z-10" />
       <div className="mx-auto flex w-full max-w-[1320px] flex-1 flex-col justify-between gap-12 px-6 pb-14 pt-16 md:px-8">
         <div className="flex flex-col gap-4">
@@ -99,16 +111,19 @@ function Bento({ t }: { t: Dict }) {
         <Link href="#trails" className="rounded-full border border-line px-5 py-3 font-bold hover:bg-white/10">{t.allTrailsLink}</Link>
       </div>
       <div className="grid gap-4 md:grid-cols-4 md:grid-rows-[300px_300px]">
-        <Link href="/?q=көл#trails" className={`${card} photo-lake min-h-[320px] md:col-span-2 md:row-span-2 md:p-8`}>
+        <Link href="/?q=көл#trails" className={`${card} min-h-[320px] md:col-span-2 md:row-span-2 md:p-8`}>
+          <Image src="/images/lake.jpg" alt="" fill sizes="(min-width: 768px) 50vw, 100vw" quality={70} className="-z-10 object-cover" />
           <span className="self-start rounded-full border border-white/35 bg-white/20 px-3 py-1.5 text-[13px] font-bold">4 {t.trailsCount}</span>
           <span className="font-display text-3xl font-semibold leading-none md:text-[44px]">{t.catLakes}</span>
           <span className="text-stone/85">{t.catLakesSub}</span>
         </Link>
-        <Link href="/#trails" className={`${card} photo-valley min-h-[240px] md:col-span-2`}>
+        <Link href="/#trails" className={`${card} min-h-[240px] md:col-span-2`}>
+          <Image src="/images/valley.jpg" alt="" fill sizes="(min-width: 768px) 50vw, 100vw" quality={70} className="-z-10 object-cover" />
           <span className="font-display text-2xl font-semibold md:text-[30px]">{t.catGorges}</span>
           <span className="text-[15px] text-stone/85">{t.catGorgesSub}</span>
         </Link>
-        <Link href="/?region=naryn#trails" className={`${card} photo-hills min-h-[240px]`}>
+        <Link href="/?region=naryn#trails" className={`${card} min-h-[240px]`}>
+          <Image src="/images/hills.jpg" alt="" fill sizes="(min-width: 768px) 25vw, 100vw" quality={70} className="-z-10 object-cover" />
           <span className="font-display text-2xl font-semibold">{t.catPastures}</span>
           <span className="text-sm text-stone/85">{t.catPasturesSub}</span>
         </Link>
@@ -163,7 +178,7 @@ function AiCta({ t }: { t: Dict }) {
             <span className={tool}>get_weather_forecast ✓</span>
           </div>
           <Link href="/trails/ala-kul-trek" className="flex gap-3.5 rounded-[20px_20px_20px_6px] border border-line bg-panel p-3.5">
-            <span className="photo-card photo-lake h-24 w-24 shrink-0 rounded-2xl" />
+            <Image src="/images/lake.jpg" alt="" width={96} height={96} quality={70} className="h-24 w-24 shrink-0 rounded-2xl object-cover" />
             <span className="flex flex-col gap-1.5 text-[15px] leading-normal text-stone/85">
               <strong className="font-display text-lg font-semibold text-white">Ала-Көл</strong>
               <span>3 {t.daysLong} · 55 {t.km} · ↑ 3 900 {t.m}</span>
@@ -179,7 +194,9 @@ function AiCta({ t }: { t: Dict }) {
 function PreFooter({ t }: { t: Dict }) {
   return (
     <section className="mx-auto max-w-[1320px] px-6 pt-6 md:px-8">
-      <div className="on-photo photo-cta flex min-h-[320px] flex-wrap items-end justify-between gap-8 rounded-[36px] px-8 py-16 md:px-16 md:py-20">
+      <div className="on-photo relative isolate flex min-h-[320px] flex-wrap items-end justify-between gap-8 overflow-hidden rounded-[36px] px-8 py-16 md:px-16 md:py-20">
+        <Image src="/images/valley.jpg" alt="" fill sizes="(min-width: 1320px) 1320px, 100vw" quality={70} className="-z-10 object-cover object-[center_35%]" />
+        <div aria-hidden className="photo-cta-shade absolute inset-0 -z-10" />
         <div className="flex max-w-3xl flex-col gap-3.5">
           <span className="text-[13px] font-bold uppercase tracking-[0.2em] text-stone/90">{t.preEyebrow}</span>
           <h2 className="font-display text-5xl font-extrabold leading-[0.95] tracking-[-0.02em] md:text-[72px]">

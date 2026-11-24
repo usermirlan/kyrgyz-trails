@@ -77,7 +77,7 @@ export default function PlannerForm({ t }: { t: Dict }) {
             </ReactMarkdown>
           </div>
           {state.result.tool_calls.length > 0 && (
-            <details className="mt-6 text-xs text-stone/50">
+            <details className="mt-6 text-xs text-muted">
               <summary className="cursor-pointer">{t.toolsUsed} ({state.result.tool_calls.length})</summary>
               <ul className="mt-2 space-y-1 font-mono">
                 {state.result.tool_calls.map((c, i) => (

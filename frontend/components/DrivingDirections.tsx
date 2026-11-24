@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import type { GeoJSONSource, Map as MLMap } from "maplibre-gl";
-import { collapseAttribution, currentTheme, followTheme, mapStyle } from "@/lib/map";
+import { collapseAttribution, currentTheme, followTheme, mapStyle, whenNearViewport } from "@/lib/map";
 import { getDirections } from "@/app/actions";
 import type { DirectionStep, Directions } from "@/lib/api";
 import type { Dict } from "@/lib/i18n";
@@ -78,7 +78,8 @@ export default function DrivingDirections({ slug, t }: { slug: string; t: Dict }
   // map, created once
   useEffect(() => {
     let cancelled = false;
-    (async () => {
+    if (!container.current) return;
+    const stopWatching = whenNearViewport(container.current, async () => {
       const maplibregl = (await import("maplibre-gl")).default;
       if (cancelled || !container.current) return;
       const map = new maplibregl.Map({
@@ -110,9 +111,10 @@ export default function DrivingDirections({ slug, t }: { slug: string; t: Dict }
         });
         setStyleVersion((v) => v + 1);
       });
-    })();
+    });
     return () => {
       cancelled = true;
+      stopWatching();
       mapRef.current?.remove();
       mapRef.current = null;
     };

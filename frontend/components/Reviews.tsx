@@ -24,7 +24,7 @@ export default async function Reviews({
   return (
     <section className="space-y-4">
       <h2 className="text-xl font-semibold">
-        {t.reviews} <span className="text-stone/40">({reviews.length})</span>
+        {t.reviews} <span className="text-muted">({reviews.length})</span>
       </h2>
 
       {loggedIn ? (
@@ -36,7 +36,7 @@ export default async function Reviews({
       )}
 
       {reviews.length === 0 ? (
-        <p className="text-sm text-stone/50">{t.noReviews}</p>
+        <p className="text-sm text-muted">{t.noReviews}</p>
       ) : (
         <ul className="space-y-3">
           {reviews.map((r) => (
@@ -46,10 +46,10 @@ export default async function Reviews({
                   <span className="font-medium">{r.author}</span>
                   <span className="text-amber-500" aria-label={`${r.rating}/5`}>
                     {"★".repeat(r.rating)}
-                    <span className="text-stone/15">{"★".repeat(5 - r.rating)}</span>
+                    <span aria-hidden className="text-stone/25">{"★".repeat(5 - r.rating)}</span>
                   </span>
                 </div>
-                <div className="flex items-center gap-3 text-xs text-stone/50">
+                <div className="flex items-center gap-3 text-xs text-muted">
                   {r.conditions && <span className="rounded-full bg-stone/5 px-2 py-0.5">{t.cond[r.conditions as keyof Dict["cond"]]}</span>}
                   {r.hiked_on && <span>{r.hiked_on}</span>}
                   {r.is_mine && (

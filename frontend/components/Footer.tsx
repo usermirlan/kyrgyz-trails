@@ -8,7 +8,7 @@ import LangSwitcher from "./LangSwitcher";
 const WEATHER_SLUG = "ala-archa-ratsek";
 const REPO_URL = "https://github.com/usermirlan/kyrgyz-trails";
 
-const heading = "text-xs font-bold uppercase tracking-[0.14em] text-muted/80";
+const heading = "text-xs font-bold uppercase tracking-[0.14em] text-muted";
 const flink = "text-[15px] text-stone/85 hover:text-white";
 
 async function RegionLinks({ t, lang }: { t: Dict; lang: string }) {
@@ -23,7 +23,7 @@ async function RegionLinks({ t, lang }: { t: Dict; lang: string }) {
     <>
       {counts.map(([region, n]) => (
         <Link key={region} href={`/?region=${region}#trails`} className={flink}>
-          {t.regions[region as keyof Dict["regions"]] ?? region} <span className="text-muted/70">{n}</span>
+          {t.regions[region as keyof Dict["regions"]] ?? region} <span className="text-muted">{n}</span>
         </Link>
       ))}
     </>
@@ -64,7 +64,7 @@ async function WeatherWidget({ t }: { t: Dict }) {
           );
         })}
       </div>
-      <span className="text-xs text-muted/70">Open-Meteo</span>
+      <span className="text-xs text-muted">Open-Meteo</span>
     </div>
   );
 }

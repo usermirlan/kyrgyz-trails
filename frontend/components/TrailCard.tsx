@@ -22,7 +22,7 @@ export function Rating({ avg, count }: { avg: number | null; count: number }) {
   if (avg === null) return null;
   return (
     <span className="text-sm text-stone/70" aria-label={`${avg} / 5`}>
-      <span className="text-amber-500">★</span> {avg.toFixed(1)} <span className="text-stone/40">({count})</span>
+      <span className="text-amber-500">★</span> {avg.toFixed(1)} <span className="text-muted">({count})</span>
     </span>
   );
 }
@@ -45,7 +45,7 @@ export default function TrailCard({ trail, t }: { trail: Trail; t: Dict }) {
         <Stat label={t.maxElevation} value={`${trail.max_elevation_m} ${t.m}`} />
         <Stat label={t.days} value={String(trail.duration_days)} />
       </div>
-      <div className="flex items-center justify-between text-xs text-stone/50">
+      <div className="flex items-center justify-between text-xs text-muted">
         <span>
           {t.regions[trail.region as keyof Dict["regions"]] ?? trail.region_label} {t.region}
         </span>

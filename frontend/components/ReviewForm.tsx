@@ -14,7 +14,7 @@ export default function ReviewForm({ slug, t }: { slug: string; t: Dict }) {
       <input type="hidden" name="slug" value={slug} />
       <input type="hidden" name="rating" value={rating} />
       <div className="flex items-center gap-2">
-        <span className="text-sm text-stone/60">{t.yourReview}:</span>
+        <span className="text-sm text-muted">{t.yourReview}:</span>
         {[1, 2, 3, 4, 5].map((n) => (
           <button
             key={n}
@@ -29,11 +29,11 @@ export default function ReviewForm({ slug, t }: { slug: string; t: Dict }) {
       </div>
       <textarea name="text" rows={3} maxLength={2000} placeholder={t.reviewText} className={field} />
       <div className="grid gap-3 sm:grid-cols-2">
-        <label className="text-sm text-stone/60">
+        <label className="text-sm text-muted">
           {t.hikedOn}
           <input type="date" name="hiked_on" className={`${field} mt-1`} />
         </label>
-        <label className="text-sm text-stone/60">
+        <label className="text-sm text-muted">
           {t.conditions}
           <select name="conditions" className={`${field} mt-1`} defaultValue="">
             {Object.entries(t.cond).map(([v, l]) => (

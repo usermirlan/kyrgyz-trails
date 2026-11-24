@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import type { Map as MLMap } from "maplibre-gl";
-import { collapseAttribution, followTheme, mapStyle } from "@/lib/map";
+import { collapseAttribution, followTheme, mapStyle, whenNearViewport } from "@/lib/map";
 
 type MapPoint = { slug: string; title: string; lat: number; lng: number; difficulty: string };
 
@@ -28,8 +28,9 @@ export default function TrailMap({
 
   useEffect(() => {
     let cancelled = false;
+    if (!container.current) return;
 
-    (async () => {
+    const stopWatching = whenNearViewport(container.current, async () => {
       const maplibregl = (await import("maplibre-gl")).default;
       if (cancelled || !container.current) return;
 
@@ -79,10 +80,11 @@ export default function TrailMap({
           });
         }
       });
-    })();
+    });
 
     return () => {
       cancelled = true;
+      stopWatching();
       mapRef.current?.remove();
       mapRef.current = null;
     };

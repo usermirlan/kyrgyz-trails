@@ -14,7 +14,7 @@ export default async function FavoritesPage() {
     <main className="mx-auto max-w-5xl px-4 py-8">
       <h1 className="mb-6 text-3xl font-bold tracking-tight">♥ {t.favorites}</h1>
       {trails.length === 0 ? (
-        <p className="rounded-2xl border border-dashed border-stone/20 p-10 text-center text-stone/60">{t.noFavorites}</p>
+        <p className="rounded-2xl border border-dashed border-stone/20 p-10 text-center text-muted">{t.noFavorites}</p>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {trails.map((trail) => (

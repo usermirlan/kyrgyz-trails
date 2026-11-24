@@ -4,6 +4,9 @@ import Header from "@/components/Header";
 import OfflineBanner from "@/components/OfflineBanner";
 import ServiceWorker from "@/components/ServiceWorker";
 import { getDict, getLang, getTheme } from "@/lib/session";
+// Self-hosted variable fonts with Cyrillic (only the unicode ranges a page uses are fetched)
+import "@fontsource-variable/manrope/wght.css";
+import "@fontsource-variable/unbounded/wght.css";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -23,15 +26,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     // the theme is rendered on the server from a cookie, so there is no flash on load
     <html lang={lang} id="top" data-theme={theme}>
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        {/* Cyrillic-capable fonts, loaded at runtime so the build needs no network */}
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Unbounded:wght@400;600;800&display=swap"
-        />
-      </head>
       <body className="min-h-screen font-sans antialiased">
         <Header />
         <OfflineBanner text={t.offline} />
